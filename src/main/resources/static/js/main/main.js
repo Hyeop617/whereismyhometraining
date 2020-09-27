@@ -14,24 +14,10 @@ login = function () {
         let promise = res.text();
         if (res.status === 401) {
             alert("아이디 혹은 비밀번호를 확인해주세요.")
+        } else if (res.status === 200){
+            document.location.href = '/training'
         }
-        return promise
-    }).then(data => {
-        alert("로그인 성공")
-        localStorage.setItem("AUTH-TOKEN", data);
-        redirect()
-        // res.redirect('/training')
     }).catch(err =>
         console.log(err)
     )
 };
-
-redirect = function () {
-    fetch("/training", {
-        headers: {
-            'Content-Type': 'application/json',
-            'AUTH-TOKEN': localStorage.getItem('AUTH-TOKEN'),
-        },
-        redirect : 'manual'
-    }).then(res => res.error());
-}

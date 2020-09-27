@@ -1,6 +1,8 @@
 package com.hyeop.whereismyhometraining.config;
 
+import com.hyeop.whereismyhometraining.advice.CustomAuthenticationEntryPoint;
 import com.hyeop.whereismyhometraining.domain.account.AccountService;
+import com.hyeop.whereismyhometraining.entity.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CookieProvider cookieProvider;
 
+    @Autowired
+    RedisUtil redisUtil;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -35,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, cookieProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, cookieProvider, redisUtil), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .and()
                 .authorizeRequests()
                     .antMatchers("/training/**").authenticated()
                     .anyRequest().permitAll()

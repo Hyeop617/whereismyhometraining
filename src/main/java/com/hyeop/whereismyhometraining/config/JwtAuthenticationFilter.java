@@ -1,11 +1,15 @@
 package com.hyeop.whereismyhometraining.config;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import com.hyeop.whereismyhometraining.advice.exception.*;
+import com.hyeop.whereismyhometraining.entity.RedisUtil;
+import com.hyeop.whereismyhometraining.entity.account.Account;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,31 +17,50 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Slf4j
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final CookieProvider cookieProvider;
+    private final RedisUtil redisUtil;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
-            Cookie cookie = Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "accessToken"))
-                                         .orElseThrow(Exception::new);
-            String accessToken = cookie.getValue();
-            if (jwtProvider.validateToken(accessToken)) {           // 유효한 토큰인지 확인
-                // 토큰이 유효하면 토큰으로부터 유저정보 받아옴
-                Authentication authentication = jwtProvider.getAuthentication(accessToken);
-                // SecurityContext에 Authentication 저장
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+            Optional<Cookie> accessCookie = Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "accessToken"));
+
+            if(accessCookie.isPresent()){
+                String accessToken = accessCookie.get().getValue();
+                if (jwtProvider.validateToken(accessToken)) {           // 유효한 토큰인지 확인
+                    // 토큰이 유효하면 토큰으로부터 유저정보 받아옴
+                    Authentication authentication = jwtProvider.getAuthentication(accessToken);
+                    // SecurityContext에 Authentication 저장
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {                                                // 유효한 토큰이 아닐 시 (refresh Token)
+                    Optional<Cookie> refreshCookie = Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "refreshToken"));
+                    if(refreshCookie.isPresent()){
+                        String refreshToken = refreshCookie.get().getValue();
+                        String username = redisUtil.getData(refreshToken);
+                        if(username.equals(jwtProvider.getUsername(refreshToken))){
+                            Authentication authentication = jwtProvider.getAuthentication(refreshToken);
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                            Account account = Account.builder().username(username).build();
+                            String newAccessToken = jwtProvider.createAccessToken(username, account);
+
+                            response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken));
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 }

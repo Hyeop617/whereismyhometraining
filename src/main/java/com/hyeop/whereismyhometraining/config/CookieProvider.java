@@ -11,13 +11,21 @@ import java.util.Optional;
 @Component
 public class CookieProvider {
 
-    public ResponseCookie createCookie(String cookieName, String value){
+    public ResponseCookie createResponseCookie(String cookieName, String value){
         return ResponseCookie.from(cookieName, value)
-                        .httpOnly(false)
-                        .maxAge(JwtProvider.TOKEN_VALID_TIME)
+                        .httpOnly(true)
+                        .maxAge(JwtProvider.TOKEN_VALID_TIME / 1000)
                         .path("/")
                         .build();
 
+    }
+
+    public Cookie createCookie(String cookieName, String value){
+        Cookie cookie = new Cookie(cookieName, value);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge((int) (JwtProvider.TOKEN_VALID_TIME / 1000));
+        cookie.setPath("/");
+        return cookie;
     }
 
     public Cookie getCookie(HttpServletRequest req, String cookieName){

@@ -1,6 +1,7 @@
 package com.hyeop.whereismyhometraining.config;
 
 import com.hyeop.whereismyhometraining.domain.account.AccountService;
+import com.hyeop.whereismyhometraining.entity.account.Account;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -22,6 +24,7 @@ public class JwtProvider {
     private  String secretKey = "whereIsMyHomeTraining";
 
     public final static Long TOKEN_VALID_TIME = 30 * 60 * 1000L;
+    public final static Long REFRESH_TOKEN_VALID_TIME = 7 * 24 * 60 * 60 * 1000L;
 
     @Autowired
     private AccountService accountService;
@@ -31,13 +34,25 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String subject, Map<String, Object> claims){
+    public String createAccessToken(String subject, Account account){
+        return createToken(subject, account, TOKEN_VALID_TIME);
+    }
+
+    public String createRefreshToken(String subject, Account account){
+        return createToken(subject, account, REFRESH_TOKEN_VALID_TIME);
+    }
+
+    public String createToken(String subject, Account account, Long validTime){
+        Map<String, Object> claims = new HashMap<>();
+//        claims.put("id", account.getId());
+        claims.put("username", account.getUsername());
+//        claims.put("role", accountService.createAuthoritiesList(account));
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(subject)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + TOKEN_VALID_TIME))
+                .setExpiration(new Date(now.getTime() + validTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -49,10 +64,6 @@ public class JwtProvider {
 
     public String getUsername(String token){
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username").toString();
-    }
-
-    public String resolveToken(HttpServletRequest request){
-        return request.getHeader("AUTH-TOKEN");
     }
 
     public Boolean validateToken(String token){
