@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/signup/signup.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <label>아이디</label>
+                <input type="text" name="username">
+                <span name="usernameSuccess" class="text-success d-none">사용가능한 아이디 입니다.</span>
+                <span name="usernameAlert" class="text-danger d-none">중복된 아이디 입니다.</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>비밀번호</label>
+                <input type="password" name="password">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>비밀번호 재입력</label>
+                <input type="password" name="password2">
+                <span name="passwordAlert" class="text-danger d-none">비밀번호가 맞지 않습니다.</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>닉네임</label>
+                <input type="text" name="nickname">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>성별</label>
+                <input type="text" name="gender">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>나이</label>
+                <input type="text" name="age">
+            </td>
+        </tr>
+        <tr>
+            <td><button class="btn btn-primary" onclick="signup()">회원가입</button></td>
+        </tr>
+    </table>
+
+</body>
+</html>
