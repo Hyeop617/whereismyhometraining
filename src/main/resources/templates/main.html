@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,7 +7,7 @@
     <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="/js/main/main.js"></script>
 </head>
-<body>
+<body class="m-2">
     <table>
         <tr>
             <td>
@@ -28,8 +28,34 @@
         </tr>
 
     </table>
-    <a href="/signup" class="btn btn-primary">회원가입</a>
-    <a href="/training" class="btn btn-primary">트레이닝</a>
+    <div class="w-100">
+        <div>
+            <a href="/signup">
+                <button class="btn btn-secondary p-0 mt-3 align-content" style=" height: 40px; width: 600px;">
+                    <span class="text-white">회원가입</span>
+                </button>
+            </a>
+        </div>
+        <div>
+            <a href="/oauth2/authorization/naver">
+                <button class="btn p-0 mt-3 align-content" style="background: #1ec800; height: 40px; width: 600px;">
+                    <img src="/img/button/sns/naver2.png" width="15px" height="15px" class="mr-2 mb-1">
+                    <span class="text-white">네이버로 이용하기</span>
+                </button>
+            </a>
+        </div>
+        <div>
+            <a href="/oauth2/authorization/google">
+                <button class="btn p-0 mt-3 mb-3 align-content" style="background: #ffffff; border-color : #ccc; height: 40px; width: 600px;">
+                    <img src="/img/button/sns/google.png" width="15px" height="15px" class="mr-2">
+                    <span>구글로 이용하기</span>
+                </button>
+            </a>
+        </div>
+    </div>
+
+
+<!--    <a href="/training" class="btn btn-primary">트레이닝</a>-->
 
 </body>
 </html>

@@ -11,25 +11,26 @@ import java.util.Optional;
 @Component
 public class CookieProvider {
 
-    public ResponseCookie createResponseCookie(String cookieName, String value){
+    public ResponseCookie createResponseCookie(String cookieName, String value, Boolean isRefresh){
         return ResponseCookie.from(cookieName, value)
                         .httpOnly(true)
-                        .maxAge(JwtProvider.TOKEN_VALID_TIME / 1000)
+                        .maxAge(isRefresh ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000)
                         .path("/")
                         .build();
 
     }
 
-    public Cookie createCookie(String cookieName, String value){
+    public Cookie createCookie(String cookieName, String value, Boolean isRefresh){
         Cookie cookie = new Cookie(cookieName, value);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge((int) (JwtProvider.TOKEN_VALID_TIME / 1000));
+        cookie.setMaxAge((int) (isRefresh ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000));
         cookie.setPath("/");
         return cookie;
     }
 
     public Cookie getCookie(HttpServletRequest req, String cookieName){
-        Cookie[] cookies = req.getCookies();
+        //TODO :: 쿠키가 없을수도 잇듬
+        Cookie[] cookies = Optional.ofNullable(req.getCookies()).orElse(new Cookie[]{});
         Optional<Cookie> reduce = Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(cookieName))
                 .map(Optional::ofNullable)

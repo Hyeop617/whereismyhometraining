@@ -1,27 +1,24 @@
-package com.hyeop.whereismyhometraining.entity.account;
+package com.hyeop.whereismyhometraining.entity.accountSns;
+
 
 import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.entity.enums.Sns;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
-@Builder
 @AllArgsConstructor
-public class Account {
+@Builder
+@NoArgsConstructor
+@ToString
+public class AccountSns {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;        // 아이디
-
-    private String password;        // 비밀번호
+    private String username;          // UID
 
     private String nickname;        // 이름
 
@@ -32,9 +29,9 @@ public class Account {
     private Integer level;          // 운동 경험
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role;              // 역할
 
-    public String getRoleAuth(){
-        return this.role.getAuth();
-    }
+    @Enumerated(EnumType.STRING)
+    private Sns sns;                // SNS 종류
+
 }

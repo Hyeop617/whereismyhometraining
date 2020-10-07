@@ -8,6 +8,9 @@ import com.hyeop.whereismyhometraining.entity.account.Account;
 import com.hyeop.whereismyhometraining.entity.account.AccountRepository;
 import com.hyeop.whereismyhometraining.entity.account.dto.LoginRequestDto;
 import com.hyeop.whereismyhometraining.entity.account.dto.SignupRequestDto;
+import com.hyeop.whereismyhometraining.entity.accountSns.AccountSns;
+import com.hyeop.whereismyhometraining.entity.accountSns.dto.SignupSnsRequestDto;
+import com.hyeop.whereismyhometraining.entity.accountSns.AccountSnsRepository;
 import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.mapper.AccountMapper;
 import com.hyeop.whereismyhometraining.response.ResponseService;
@@ -34,6 +37,9 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private AccountSnsRepository accountSnsRepository;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -73,11 +79,15 @@ public class AccountService implements UserDetailsService {
 
             String accessToken = jwtProvider.createAccessToken(account.get().getUsername(), account.get());
             String refreshToken = jwtProvider.createRefreshToken(account.get().getUsername(), account.get());
-            ResponseCookie accessCookie = cookieProvider.createResponseCookie("accessToken", accessToken);
-            ResponseCookie refreshCookie = cookieProvider.createResponseCookie("refreshToken", refreshToken);
-            redisUtil.setDataExpire(refreshToken, account.get().getUsername(), JwtProvider.REFRESH_TOKEN_VALID_TIME);
+            // Token을 담은 Cookie 생성
+            ResponseCookie accessCookie = cookieProvider.createResponseCookie("accessToken", accessToken, false);
+            ResponseCookie refreshCookie = cookieProvider.createResponseCookie("refreshToken", refreshToken, true);
+            // Redis에 Refresh Token 저장
+            redisUtil.setDataExpire(account.get().getUsername(), refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
             return ResponseEntity.ok()
+                    // Cookie를 Response 응답에 반환
                     .header(HttpHeaders.SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
+                    // Token을 Response 응답에 반환
                     .body(jwtProvider.createAccessToken(account.get().getUsername(), account.get()));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -93,7 +103,6 @@ public class AccountService implements UserDetailsService {
 
     public ResponseEntity signup(SignupRequestDto dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-        log.info("dto is : {} ", dto);
         accountRepository.save(accountMapper.INSTANCE.toAccount(dto));
         return new ResponseEntity<>(HttpStatus.OK);
 
@@ -103,5 +112,10 @@ public class AccountService implements UserDetailsService {
         return accountRepository.existsByUsername(username)
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseEntity signupSns(SignupSnsRequestDto dto) {
+        accountSnsRepository.save(accountMapper.INSTANCE.toAccount(dto));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

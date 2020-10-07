@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Third Party Signup</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="/js/signup/snsSignup.js"></script>
+    <script>
+        const uid = '[[${uid}]]';
+        const regId = '[[${regId}]]'
+    </script>
+</head>
+<body>
+<h2 th:text="|${regId} 회원가입|"></h2>
+<input type="hidden" th:value="${uid}" name="uid">
+    <table>
+        <tr>
+            <td>
+                <label>닉네임</label>
+                <input type="text" name="nickname">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>성별</label>
+                <input type="text" name="gender">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>나이</label>
+                <input type="text" name="age">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>운동 경험</label>
+                <input type="text" name="level">
+            </td>
+        </tr>
+        <tr>
+            <td><button class="btn btn-primary" onclick="signupSns()">회원가입</button></td>
+        </tr>
+    </table>
+
+</body>
+</html>

@@ -12,4 +12,5 @@ public enum Role {
 
     private String auth;
     private String title;
+
 }

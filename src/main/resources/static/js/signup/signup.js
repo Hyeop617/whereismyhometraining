@@ -12,21 +12,21 @@ usernameCheck = function () {
 
     username.addEventListener('blur', function () {
         fetch("/signup/check", {
-            method : 'post',
-            headers : {
-                'Content-Type' : 'application/json'
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
             },
             body: username.value
         }).then(res => {
-            if(res.status === 200){
+            if (res.status === 200) {
                 usernameAlert.classList.add('d-none');
                 usernameSuccess.classList.remove('d-none');
                 usernameDupl = true;
-            }else if (res.status === 409){
+            } else if (res.status === 409) {
                 usernameAlert.classList.remove('d-none');
                 usernameSuccess.classList.add('d-none');
                 usernameDupl = false;
-            }else {
+            } else {
                 console.log(res);
             }
         })
@@ -49,10 +49,10 @@ passwordCheck = function () {
     });
 
     password2.addEventListener('keyup', function () {
-        if(password1.value !== password2.value){
+        if (password1.value !== password2.value) {
             passwordAlert.classList.remove('d-none');
             passwordDupl = false;
-        }else{
+        } else {
             passwordAlert.classList.add('d-none');
             passwordDupl = true;
         }
@@ -60,28 +60,29 @@ passwordCheck = function () {
 };
 
 signup = function () {
-    if(usernameDupl && passwordDupl){
+    if (usernameDupl && passwordDupl) {
 
         const account = {
-            username : document.querySelector('[name=username]').value,
-            password : document.querySelector('[name=password]').value,
-            nickname : document.querySelector('[name=nickname]').value,
-            gender : document.querySelector('[name=gender]').value,
-            age: document.querySelector('[name=age]').value
+            username: document.querySelector('[name=username]').value,
+            password: document.querySelector('[name=password]').value,
+            nickname: document.querySelector('[name=nickname]').value,
+            gender: document.querySelector('[name=gender]').value,
+            age: document.querySelector('[name=age]').value,
+            level: document.querySelector('[name=level]').value,
         };
         fetch("/signup/execute", {
-            method : 'post',
-            headers : {
-                'Content-Type' : 'application/json'
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(account)
         }).then(res => {
             console.log(res);
-            if(res.status === 200){
+            if (res.status === 200) {
                 alert("가입되었습니다.")
                 document.location.href = '/';
                 console.log("success")
-            }else{
+            } else {
                 console.log("failure")
             }
         })

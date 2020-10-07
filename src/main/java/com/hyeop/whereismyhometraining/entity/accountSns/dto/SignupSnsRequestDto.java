@@ -1,19 +1,19 @@
-package com.hyeop.whereismyhometraining.entity.account.dto;
+package com.hyeop.whereismyhometraining.entity.accountSns.dto;
 
-import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.entity.enums.Sns;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-public class SignupRequestDto {
+@ToString
+public class SignupSnsRequestDto {
 
     private String username;
     private String nickname;
-    private String password;
     private String gender;
-    private String email;
     private Integer age;
+    private Sns sns;
     private Integer level;
 }
