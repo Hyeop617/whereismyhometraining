@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/index/index.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <main class="container">
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <i class="material-icons" style="font-size:50px; vertical-align: bottom;">directions_run</i>
+            <h1 class="d-inline">All Routines</h1>
+        </div>
+        <hr>
+
+        <!-- collapse toggle -->
+        <div class="t-tbl">
+            <div class="t-cell shadow" data-toggle="collapse" href="#상체"
+                 style="background-image: url('/img/top.png');">
+            </div>
+            <div class="t-cell shadow" data-toggle="collapse" href="#복근"
+                 style="background-image: url('/img/mid.png');">
+            </div>
+            <div class="t-cell shadow" data-toggle="collapse" href="#하체"
+                 style="background-image: url('/img/bot.png');">
+            </div>
+        </div>
+
+        <!-- 상체 Accordion -->
+        <div class="card collapse shadow-sm mb-4" id="상체" aria-expanded="false" style="background-color:#7770f010;">
+            <div class="card-header">
+                상체 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center">
+                <ul th:each="course : ${courseList}" class="list-group list-group-horizontal mb-2">
+                    <li class="list-group-item py-2 rounded-lg" th:text="${course.title}">{{ 코스이름 }}</li>
+                    <li class="list-group-item py-2 rounded-lg" th:text="${course.level}">{{ 코스레벨 }}</li>
+                    <li class="list-group-item py-2 rounded-lg" th:text="${course.period}">{{ 코스기간 }}</li>
+                    <li class="list-group-item py-2 rounded-lg" th:text="${course.description}">{{ 코스설명 }}</li>
+                </ul>
+
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+                <hr>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+        <!-- 복근 Accordion -->
+        <div class="card collapse shadow-sm mb-4" id="복근" aria-expanded="false"
+             style="background-color:#70e9f010; margin: auto;">
+            <div class="card-header">
+                복근 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center">
+                <ul class="list-group list-group-horizontal mb-2">
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스이름 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스레벨 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스기간 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스설명 }}</li>
+                </ul>
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+        <!-- 하체 Accordion -->
+        <div class="card collapse shadow-sm mb-4" id="하체" aria-expanded="false"
+             style="background-color:#a9f07010; margin-left: auto;">
+            <div class="card-header">
+                하체 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center">
+                <ul class="list-group list-group-horizontal mb-2">
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스이름 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스레벨 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스기간 }}</li>
+                    <li class="list-group-item py-2 rounded-lg">{{ 코스설명 }}</li>
+                </ul>
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+    </main>
+
+</div>
+
+</html>

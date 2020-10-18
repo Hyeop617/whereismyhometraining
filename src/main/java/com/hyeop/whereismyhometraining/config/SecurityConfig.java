@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 // 권한 설정
                 .authorizeRequests()
-                    .antMatchers("/training/**").authenticated()            // training 하위 페이지는 권한 필요
+                    .antMatchers("/course/**").authenticated()            // training 하위 페이지는 권한 필요
                     .anyRequest().permitAll()                                         // 그 외 페이지는 모두 허가
                     .and()
                 .logout()                                       // 로그아웃 시 설정

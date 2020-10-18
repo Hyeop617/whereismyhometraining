@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 public class SignupRequestDto {
 
-    private String username;
+    private String email;
     private String nickname;
     private String password;
     private String gender;
-    private String email;
     private Integer age;
     private Integer level;
 }

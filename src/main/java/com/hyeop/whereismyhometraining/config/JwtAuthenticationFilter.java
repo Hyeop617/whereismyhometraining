@@ -79,7 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String newAccessToken = jwtProvider.createSnsAccessToken(username, accountSns);
             response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken, false));
         } else {
-            Account account = Account.builder().username(username).build();
+            Account account = Account.builder().email(username).build();
             String newAccessToken = jwtProvider.createAccessToken(username, account);
             response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken, false));
         }

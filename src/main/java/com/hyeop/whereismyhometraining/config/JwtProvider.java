@@ -62,7 +62,7 @@ public class JwtProvider {
 
     public String createToken(String subject, Account account, Long validTime){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", account.getUsername());
+        claims.put("username", account.getEmail());
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(subject)

@@ -24,8 +24,8 @@ public class LoginFacade {
         return accountService.signup(dto);
     }
 
-    public ResponseEntity usernameDuplCheck(String username) {
-        return accountService.usernameDuplCheck(username);
+    public ResponseEntity usernameDuplCheck(String email) {
+        return accountService.usernameDuplCheck(email);
     }
 
     public HashMap<String,String> getSnsSignupData(String regId, String uid) {

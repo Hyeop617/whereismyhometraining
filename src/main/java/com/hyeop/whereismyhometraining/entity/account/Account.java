@@ -19,7 +19,7 @@ public class Account {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;        // 아이디
+    private String email;        // 이메일
 
     private String password;        // 비밀번호
 

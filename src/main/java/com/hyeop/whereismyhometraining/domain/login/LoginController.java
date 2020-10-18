@@ -25,7 +25,7 @@ public class LoginController {
         System.out.println(authentication);
         Object principal = authentication.getPrincipal();
         System.out.println(principal);
-        return "main";
+        return "index";
     }
 
     @GetMapping("/signup")
@@ -57,8 +57,8 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/signup/check")
-    public ResponseEntity signupCheck(@RequestBody String username){
-        ResponseEntity responseEntity = loginFacade.usernameDuplCheck(username);
+    public ResponseEntity signupCheck(@RequestBody String email){
+        ResponseEntity responseEntity = loginFacade.usernameDuplCheck(email);
         return responseEntity;
     }
 

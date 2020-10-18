@@ -70,34 +70,34 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity login(LoginRequestDto dto) {
-        Optional<Account> account = accountRepository.findByUsername(dto.getUsername());
+        Optional<Account> account = accountRepository.findByEmail(dto.getEmail());
         if(account.isPresent()){
             if(!passwordEncoder.matches(dto.getPassword(),account.get().getPassword())){
                 log.info("비밀번호 달라요.");
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             }
 
-            String accessToken = jwtProvider.createAccessToken(account.get().getUsername(), account.get());
-            String refreshToken = jwtProvider.createRefreshToken(account.get().getUsername(), account.get());
+            String accessToken = jwtProvider.createAccessToken(account.get().getEmail(), account.get());
+            String refreshToken = jwtProvider.createRefreshToken(account.get().getEmail(), account.get());
             // Token을 담은 Cookie 생성
             ResponseCookie accessCookie = cookieProvider.createResponseCookie("accessToken", accessToken, false);
             ResponseCookie refreshCookie = cookieProvider.createResponseCookie("refreshToken", refreshToken, true);
             // Redis에 Refresh Token 저장
-            redisUtil.setDataExpire(account.get().getUsername(), refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
+            redisUtil.setDataExpire(account.get().getEmail(), refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
             return ResponseEntity.ok()
                     // Cookie를 Response 응답에 반환
                     .header(HttpHeaders.SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
                     // Token을 Response 응답에 반환
-                    .body(jwtProvider.createAccessToken(account.get().getUsername(), account.get()));
+                    .body(jwtProvider.createAccessToken(account.get().getEmail(), account.get()));
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new CUserNotFoundException(username + " 사용자가 없습니다."));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Account account = accountRepository.findByEmail(email).orElseThrow(() -> new CUserNotFoundException(email + " 사용자가 없습니다."));
         List<GrantedAuthority> authorities = createAuthoritiesList(account);
-        return new User(account.getUsername(), account.getPassword(), authorities);
+        return new User(account.getEmail(), account.getPassword(), authorities);
 
     }
 
@@ -108,8 +108,8 @@ public class AccountService implements UserDetailsService {
 
     }
 
-    public ResponseEntity usernameDuplCheck(String username) {
-        return accountRepository.existsByUsername(username)
+    public ResponseEntity usernameDuplCheck(String email) {
+        return accountRepository.existsByEmail(email)
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(HttpStatus.OK);
     }
