@@ -34,6 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomOAuth2SuccessHandler customOAuth2SuccessHandler;
 
+    @Autowired
+    private CustomLogoutSuccessHandler customLogoutSuccessHandler;
+
 //    @Autowired
 //    private CustomOAuth2UserService customOAuth2UserService;
 
@@ -67,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .logout()                                       // 로그아웃 시 설정
                     .logoutSuccessUrl("/")
+                    .logoutSuccessHandler(customLogoutSuccessHandler)
                     .and()
                 .oauth2Login()
                     .successHandler(customOAuth2SuccessHandler);

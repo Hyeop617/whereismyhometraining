@@ -1,20 +1,19 @@
 package com.hyeop.whereismyhometraining.config;
 
 import com.hyeop.whereismyhometraining.domain.account.AccountService;
-import com.hyeop.whereismyhometraining.domain.account.AccountSnsService;
 import com.hyeop.whereismyhometraining.entity.account.Account;
-import com.hyeop.whereismyhometraining.entity.accountSns.AccountSns;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,8 +31,6 @@ public class JwtProvider {
     @Autowired
     private AccountService accountService;
 
-    @Autowired
-    private AccountSnsService accountSnsService;
 
     @PostConstruct
     protected void init(){
@@ -41,45 +38,19 @@ public class JwtProvider {
     }
 
     public Boolean checkSnsAccount(String token){
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().containsKey("sns");
+        //TODO :: sout 지우기
+        Object sns = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("sns");
+        System.out.println("checkSnsAccount is ::: " + sns);
+        return sns.equals("NONE");
     }
 
-    public String createAccessToken(String subject, Account account){
-        return createToken(subject, account, TOKEN_VALID_TIME);
-    }
-
-    public String createRefreshToken(String subject, Account account){
-        return createToken(subject, account, REFRESH_TOKEN_VALID_TIME);
-    }
-
-    public String createSnsAccessToken(String subject, AccountSns accountSns){
-        return createSnsToken(subject, accountSns, TOKEN_VALID_TIME);
-    }
-
-    public String createSnsRefreshToken(String subject, AccountSns accountSns){
-        return createSnsToken(subject, accountSns, REFRESH_TOKEN_VALID_TIME);
-    }
-
-    public String createToken(String subject, Account account, Long validTime){
+    public String createToken(Account account, Long validTime){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", account.getEmail());
+        claims.put("username", account.getUsername());
+        claims.put("sns", account.getSns());
         Date now = new Date();
         return Jwts.builder()
-                .setSubject(subject)
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + validTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
-
-    public String createSnsToken(String subject, AccountSns accountSns, Long validTime){
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("username", accountSns.getUsername());
-        claims.put("sns", accountSns.getSns());
-        Date now = new Date();
-        return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(account.getUsername())
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + validTime))
@@ -88,14 +59,16 @@ public class JwtProvider {
     }
 
     public Authentication getAuthentication(String token){
-        UserDetails userDetails = checkSnsAccount(token)
-                                ? accountSnsService.loadUserByUsername(this.getUsername(token))
-                                : accountService.loadUserByUsername(this.getUsername(token));
+        UserDetails userDetails = accountService.loadUserByUsername(this.getUsername(token));
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     public String getUsername(String token){
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username").toString();
+    }
+
+    public String getSns(String token){
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("sns").toString();
     }
 
     public Boolean validateToken(String token){

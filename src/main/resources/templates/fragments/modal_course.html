@@ -1,0 +1,54 @@
+﻿<!-- Workout.html modal -->
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="modal_course">
+
+
+<!-- modal trigger btn -->
+<button type="button" class="btn btn-outline-dark btn-block mainBtn border-0" data-toggle="modal" data-target="#DB운동id"
+    onclick="timer()" th:each="courseDeatil : ${courseDetailList}" th:text="${courseDeatil}" style="display: none"></button>
+
+<!-- Main Modal -->
+<div class="modal" id="DB운동id">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content p-1">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{ 파이크 푸쉬업(맨몸운동) }} &nbsp;
+                    <span style="font-size: 16px;">{{ x15회, 3세트 }}</span>
+                </h4>
+                <!-- timer() -->
+                <div id="timer"></div>
+                <button type="button" class="close" style="padding: 21px;" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <img src="{{ 이미지 링크 }}" height="463" width="320" align="left">
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="jumbotron">
+                            <h5 class="text-muted">
+                                파이크 푸쉬업은 푸쉬업의 동작을 변형하여 상체 어깨를 중심으로 힘이 쏠리도록 고안해낸 운동이다.
+                                본디 푸쉬업은 가슴 운동임과 동시에 전신에도 골고루 자극을 줄 수 있도록 하였으나 파이크 푸쉬업은
+                                특정 부위에 더 힘을 가하면서 해당 부위를 발달시킬수 있는 운동.
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer justify-content-between py-2">
+                <a class="btn btn-danger" href="{{ 링크 }}" role="button" target="blank">
+                    유튜브 링크>>
+                </a>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="move()">다 했어요!
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</html>

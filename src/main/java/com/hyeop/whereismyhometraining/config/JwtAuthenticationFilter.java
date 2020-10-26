@@ -1,21 +1,16 @@
 package com.hyeop.whereismyhometraining.config;
 
-import com.hyeop.whereismyhometraining.advice.exception.*;
 import com.hyeop.whereismyhometraining.entity.RedisUtil;
 import com.hyeop.whereismyhometraining.entity.account.Account;
-import com.hyeop.whereismyhometraining.entity.accountSns.AccountSns;
+import com.hyeop.whereismyhometraining.entity.enums.Sns;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -48,20 +43,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "refreshToken"))
                             .ifPresent(cookie -> {
                                 String refreshToken = cookie.getValue();
-                                String username = redisUtil.getData(refreshToken);
-                                if (username.equals(jwtProvider.getUsername(refreshToken))) {
+                                String username = jwtProvider.getUsername(refreshToken);
+                                String sns = jwtProvider.getSns(refreshToken);
+                                if(!redisUtil.getData(sns+username).isEmpty()){
                                     Authentication authentication = jwtProvider.getAuthentication(refreshToken);
                                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                                    addCookie(response, refreshToken, username);
-//                                    if (jwtProvider.checkSnsAccount(refreshToken)) {
-//                                        AccountSns accountSns = AccountSns.builder().username(username).build();
-//                                        String newAccessToken = jwtProvider.createSnsAccessToken(username, accountSns);
-//                                        response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken));
-//                                    } else {
-//                                        Account account = Account.builder().username(username).build();
-//                                        String newAccessToken = jwtProvider.createAccessToken(username, account);
-//                                        response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken));
-//                                    }
+                                    Account account = Account.builder().username(username).sns(Sns.valueOf(sns)).build();
+                                    String newAccessToken = jwtProvider.createToken(account, JwtProvider.TOKEN_VALID_TIME);
+                                    response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken));
                                 }
 
                             });
@@ -71,17 +60,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             e.printStackTrace();
         }
         filterChain.doFilter(request, response);
-    }
-
-    private void addCookie(HttpServletResponse response, String token, String username){
-        if (jwtProvider.checkSnsAccount(token)) {
-            AccountSns accountSns = AccountSns.builder().username(username).build();
-            String newAccessToken = jwtProvider.createSnsAccessToken(username, accountSns);
-            response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken, false));
-        } else {
-            Account account = Account.builder().email(username).build();
-            String newAccessToken = jwtProvider.createAccessToken(username, account);
-            response.addCookie(cookieProvider.createCookie("accessToken", newAccessToken, false));
-        }
     }
 }

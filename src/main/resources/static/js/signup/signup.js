@@ -1,8 +1,10 @@
 let emailAvailable = true;
+let usernameAvailable = true;
 let passwordAvailable = true;
 const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
 window.onload = function () {
+    usernameCheck();
     emailCheck();
     passwordCheck();
     nicknameCheck();
@@ -47,6 +49,39 @@ levelCheck = function () {
     })
 }
 
+usernameCheck = function (){
+    const username = document.querySelector('[name=username]');
+    const usernameAlert = document.querySelector('[name=usernameAlert]');
+    const usernameSuccess = document.querySelector('[name=usernameSuccess]');
+
+    username.addEventListener('focus', function () {
+        usernameAlert.classList.add('d-none');
+    })
+
+    username.addEventListener('blur', function (){
+        usernameAlert.innerText = '중복된 아이디 입니다.'
+        fetch("/signup/checkUsername", {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: username.value
+        }).then(res => {
+            if (res.status === 200) {
+                usernameAlert.classList.add('d-none');
+                usernameSuccess.classList.remove('d-none');
+                usernameAvailable = true;
+            } else if (res.status === 409) {
+                usernameAlert.classList.remove('d-none');
+                usernameSuccess.classList.add('d-none');
+                usernameAvailable = false;
+            } else {
+                console.log(res);
+            }
+        })
+    })
+}
+
 emailCheck = function () {
     const email = document.querySelector('[name=email]');
     const emailAlert = document.querySelector('[name=emailAlert]');
@@ -59,7 +94,7 @@ emailCheck = function () {
     email.addEventListener('blur', function () {
         if(emailReg.test(email.value)){
             emailAlert.innerText = '중복된 이메일 입니다.'
-            fetch("/signup/check", {
+            fetch("/signup/checkEmail", {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -122,6 +157,7 @@ passwordCheck = function () {
 };
 
 validate = function () {
+    usernameValidation()
     emailValidation()
     passwordValidation()
     nicknameValidation()
@@ -129,6 +165,20 @@ validate = function () {
     ageValidation()
     levelValidation()
     return emailValidation && passwordValidation && nicknameValidation && genderValidation && ageValidation && levelValidation();
+}
+
+usernameValidation = function () {
+    const username = document.querySelector('[name=username]');
+    const usernameAlert = document.querySelector('[name=usernameAlert]');
+
+    if(username.value == ''){
+        usernameAlert.innerText = '아이디를 입력해주세요.';
+        usernameAlert.classList.remove('d-none');
+        return false
+    }else {
+        usernameAlert.classList.add('d-none');
+        return true
+    }
 }
 
 emailValidation = function () {
@@ -224,6 +274,7 @@ signup = function () {
     if(validate()) {
         if(emailAvailable && passwordAvailable) {
             const account = {
+                username: document.querySelector('[name=username]').value,
                 email: document.querySelector('[name=email]').value,
                 password: document.querySelector('[name=password]').value,
                 nickname: document.querySelector('[name=nickname]').value,

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/index/index.js"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <main class="container">
+
+        <!-- logo href -->
+        <div style="margin-top: 110px;">
+            <a href="cover.html">
+                <img src="img/logo.png" class="d-block mx-auto mb-4" width="10%">
+            </a>
+        </div>
+        <!-- login form -->
+        <div class="form-login">
+            <div class="jumbotron p-5">
+                <h4>구해줘 홈트 로그인</h4><br>
+                <label class="sr-only">이메일</label>
+                <input type="text" name="username" class="form-control" placeholder="아이디" autofocus>
+                <label class="sr-only">비밀번호</label>
+                <input type="password" name="password" class="form-control" placeholder="비밀번호">
+                <div class="w-100">
+                    <div class="mb-5">
+                        <button class="btn btn-lg btn-primary btn-block" onclick="login()">로그인</button>
+                    </div>
+                    <div class="mb-3">
+                        <h6>아직 아이디가 없다면?</h6>
+                        <a class="btn btn-secondary btn-block" href="/signup" role="button">회원가입</a>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn p-0 align-content"
+                                style="background: #1ec800; width: 100%; height: 40px;"
+                                onclick="document.location.href='/oauth2/authorization/naver'">
+                            <img src="/img/button/sns/naver2.png" width="15px" height="15px" class="mr-2 mb-1">
+                            <span class="text-white">네이버 아이디로 이용하기</span>
+                        </button>
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn p-0 align-content"
+                                style="background: #ffffff; border-color : #ccc; height: 40px; width: 100%;"
+                                onclick="document.location.href='/oauth2/authorization/google'">
+                            <img src="/img/button/sns/google.png" width="15px" height="15px" class="mr-2">
+                            <span>구글 아이디로 이용하기</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</html>

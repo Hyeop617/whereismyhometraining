@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CAuthenticationEntryPointException.class)
     public String authenticaitonEntryPointException(HttpServletRequest req, Exception e, Model model){
         ResponseResult failResult = responseService.getFailResult();
-        failResult.setMessage("다시 로그인 해주세요.");
+        failResult.setMessage("로그인 해주세요.");
         model.addAttribute("result", failResult);
         return "error/error";
     }

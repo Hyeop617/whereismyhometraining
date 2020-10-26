@@ -1,48 +1,124 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Third Party Signup</title>
-    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="/js/signup/snsSignup.js"></script>
-    <script>
-        const uid = '[[${uid}]]';
-        const regId = '[[${regId}]]'
-    </script>
-</head>
-<body>
-<h2 th:text="|${regId} 회원가입|"></h2>
-<input type="hidden" th:value="${uid}" name="uid">
-    <table>
-        <tr>
-            <td>
-                <label>닉네임</label>
-                <input type="text" name="nickname">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>성별</label>
-                <input type="text" name="gender">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>나이</label>
-                <input type="text" name="age">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>운동 경험</label>
-                <input type="text" name="level">
-            </td>
-        </tr>
-        <tr>
-            <td><button class="btn btn-primary" onclick="signupSns()">회원가입</button></td>
-        </tr>
-    </table>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!--bootstrap CSS, js-->
+    <link rel="stylesheet" href="/webjars/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/webjars/popper.js/1.16.0/popper.min.js"></script>
+    <script src="/webjars/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- font, icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="../css/customCss.css">
+    <script src="/js/signup/snsSignup.js"></script>
+    <link rel="icon" href="/img/yoga.jpg">
+    <script>
+      const uid = '[[${uid}]]';
+      const regId = '[[${regId}]]'
+    </script>
+    <title>구해줘! 홈트 | 회원가입</title>
+</head>
+
+<body class="bg-light">
+<div class="img">
+    <!-- navigation -->
+    <header include-html="fragments/navbar.html"></header>
+
+    <main>
+        <div class="container signup-container">
+            <div class="py-5 text-center">
+                <h2>회원가입</h2>
+                <p class="lead">진정한 헬스인으로 가는길.</p>
+            </div>
+            <div class="col-md-">
+                <div class="jumbotron">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label>닉네임</label>
+                            <input type="text" class="form-control" name="nickname" placeholder="@홍길동" value="" required>
+                            <span name="nicknameAlert" class="text-danger d-none">닉네임을 입력해주세요.</span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label>성별</label>
+                            <select class="custom-select d-block w-100" name="gender" required>
+                                <option value="">성별을 선택해주세요.</option>
+                                <option value="남성">남성</option>
+                                <option value="여성">여성</option>
+                            </select>
+                            <span name="genderAlert" class="text-danger d-none">성별을 선택해주세요.</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label>연령대</label>
+                            <select class="custom-select d-block w-100" name="age" required>
+                                <option value="">선택</option>
+                                <option value="10">10대</option>
+                                <option value="20">20대</option>
+                                <option value="30">30대</option>
+                                <option value="40">40대</option>
+                                <option value="50">50대</option>
+                                <option value="60">60대 이상</option>
+                            </select>
+                            <span name="ageAlert" class="text-danger d-none">나이를 선택해주세요.</span>
+                        </div>
+                    </div>
+                    <h4 class="mb-3">평소 운동 여부</h4>
+
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio">
+                            <input id="4" name="level" type="radio" value="4" class="custom-control-input" required>
+                            <label class="custom-control-label" for="4">많이 운동하는 편</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="3" name="level" type="radio" value="3" class="custom-control-input" required>
+                            <label class="custom-control-label" for="3">그럭저럭 운동하는 편</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="2" name="level" type="radio" value="2" class="custom-control-input" required>
+                            <label class="custom-control-label" for="2">그다지 운동하지 않는 편</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="1" name="level" type="radio" value="1" class="custom-control-input" required>
+                            <label class="custom-control-label" for="1">전혀 운동하지 않는 편</label>
+                        </div>
+                    </div>
+                    <span name="levelAlert" class="text-danger d-none">운동 여부를 선택해주세요.</span>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-primary btn-lg btn-block" onclick="signup()">회원가입</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- footer -->
+    <footer include-HTML="fragments/footer.html"></footer>
+</div>
+<!--<script src="form-validation.js"></script>-->
+
+<style>
+    .lh-condensed {
+        line-height: 1.25;
+    }
+
+    .img {
+        background-image: url('/img/mainimage.jpg');
+        position: absolute;
+        background-size: cover;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-width: 100%;
+        height: 1200px;
+    }
+</style>
 </body>
+
 </html>

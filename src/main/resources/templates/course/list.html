@@ -36,20 +36,29 @@
                 상체 코스
             </div>
             <!-- {% for 코스1, 2, ... %}-->
-            <div class="card-body text-center">
-                <ul th:each="course : ${courseList}" class="list-group list-group-horizontal mb-2">
-                    <li class="list-group-item py-2 rounded-lg" th:text="${course.title}">{{ 코스이름 }}</li>
-                    <li class="list-group-item py-2 rounded-lg" th:text="${course.level}">{{ 코스레벨 }}</li>
-                    <li class="list-group-item py-2 rounded-lg" th:text="${course.period}">{{ 코스기간 }}</li>
-                    <li class="list-group-item py-2 rounded-lg" th:text="${course.description}">{{ 코스설명 }}</li>
-                </ul>
-
+            <div class="card-body text-center w-100">
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                        <th>이름</th>
+                        <th>레벨</th>
+                        <th>기간</th>
+                        <th>설명</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="course : ${upperList}"
+                            th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                            <td th:text="${course.title}"></td>
+                            <td th:text="${course.level}"></td>
+                            <td th:text="${course.period}"></td>
+                            <td th:text="${course.description}"></td>
+                        </tr>
+                    </tbody>
+                </table>
                 <div class="list-group list-group-horizontal">
                     <!-- {% for 운동1, 2, ... %} -->
                     <div include-HTML="fragments/Modal_main.html"></div>
                     <!-- {% endfor %} -->
                 </div>
-                <hr>
             </div>
             <!-- {% endfor %}-->
         </div>
@@ -61,12 +70,22 @@
             </div>
             <!-- {% for 코스1, 2, ... %}-->
             <div class="card-body text-center">
-                <ul class="list-group list-group-horizontal mb-2">
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스이름 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스레벨 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스기간 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스설명 }}</li>
-                </ul>
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                    <th>이름</th>
+                    <th>레벨</th>
+                    <th>기간</th>
+                    <th>설명</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="course : ${coreList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                        <td th:text="${course.title}"></td>
+                        <td th:text="${course.level}"></td>
+                        <td th:text="${course.period}"></td>
+                        <td th:text="${course.description}"></td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div class="list-group list-group-horizontal">
                     <!-- {% for 운동1, 2, ... %} -->
                     <div include-HTML="fragments/Modal_main.html"></div>
@@ -83,12 +102,22 @@
             </div>
             <!-- {% for 코스1, 2, ... %}-->
             <div class="card-body text-center">
-                <ul class="list-group list-group-horizontal mb-2">
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스이름 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스레벨 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스기간 }}</li>
-                    <li class="list-group-item py-2 rounded-lg">{{ 코스설명 }}</li>
-                </ul>
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                    <th>이름</th>
+                    <th>레벨</th>
+                    <th>기간</th>
+                    <th>설명</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="course : ${lowerList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                        <td th:text="${course.title}"></td>
+                        <td th:text="${course.level}"></td>
+                        <td th:text="${course.period}"></td>
+                        <td th:text="${course.description}"></td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div class="list-group list-group-horizontal">
                     <!-- {% for 운동1, 2, ... %} -->
                     <div include-HTML="fragments/Modal_main.html"></div>

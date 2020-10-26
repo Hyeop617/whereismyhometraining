@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Errorrrr</title>
-</head>
-<body>
-<h1 th:text="${result.message}">뭐</h1>
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+
+</th:block>
+<div layout:fragment="content">
+    <main class="container">
+        <div style="margin-top: 110px;">
+            <h1 th:text="${result.message}">뭐</h1>
+            <button class="btn btn-primary" onclick="goToMain()">돌아가기</button>
+        </div>
+    </main>
+</div>
 </html>

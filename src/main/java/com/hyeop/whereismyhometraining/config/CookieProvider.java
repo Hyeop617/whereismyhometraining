@@ -11,19 +11,19 @@ import java.util.Optional;
 @Component
 public class CookieProvider {
 
-    public ResponseCookie createResponseCookie(String cookieName, String value, Boolean isRefresh){
+    public ResponseCookie createResponseCookie(String cookieName, String value){
         return ResponseCookie.from(cookieName, value)
                         .httpOnly(true)
-                        .maxAge(isRefresh ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000)
+                        .maxAge(cookieName.equals("refreshToken") ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000)
                         .path("/")
                         .build();
 
     }
 
-    public Cookie createCookie(String cookieName, String value, Boolean isRefresh){
+    public Cookie createCookie(String cookieName, String value){
         Cookie cookie = new Cookie(cookieName, value);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge((int) (isRefresh ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000));
+        cookie.setMaxAge((int) (cookieName.equals("refreshToken") ? JwtProvider.REFRESH_TOKEN_VALID_TIME / 1000 : JwtProvider.TOKEN_VALID_TIME / 1000));
         cookie.setPath("/");
         return cookie;
     }

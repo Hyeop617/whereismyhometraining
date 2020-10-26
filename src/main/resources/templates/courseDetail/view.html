@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+</th:block>
+
+<div layout:fragment="content">
+
+    <main class="container">
+        <div class="row" style="margin-top: 135px;">
+            <div class="col-md-8">
+                <div class="jumbotron py-3">
+                    <h1 class="display-5" style="color: #70a9f0;">구해줘! 홈트</h1>
+                    <h6 style="color: #6a6c70; margin-bottom: 0;">코로나로 힘든 지금! 헬스장이 가기 무서운 당신에게 추천합니다!</h6>
+                </div>
+                 <!-- 메인 컨텐츠 -->
+                <div sec:authorize="isAnonymous()">
+                    <h2 class="d-inline">로그인 하신 뒤 이용하실 수 있습니다.</h2>
+                </div>
+                <div sec:authorize="isAuthenticated()">
+                    <div class="mb-3">
+                        <h2 class="d-inline" th:text="${courseDetail.courseTitle}">💪 오늘의 운동</h2>
+                        <!-- 일차 선택 dropdown -->
+                        <div class="dropdown float-right align-middle">
+                            <button type="button" class="btn btn-outline-secondary dropdown-toggle pr-2"
+                                    data-toggle="dropdown">
+                                일차 선택
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">1일차</a>
+                                <a class="dropdown-item" href="#">2일차</a>
+                                <a class="dropdown-item" href="#">3일차</a>
+                                <a class="dropdown-item" href="#">...</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 운동 modal -->
+<!--                    <div class="border-top border-bottom">-->
+<!--                        &lt;!&ndash; {% for modal %}&ndash;&gt;-->
+<!--                        <div th:include="fragments/modal_course :: modal_course"></div>-->
+<!--                        &lt;!&ndash; {% endfor %} &ndash;&gt;-->
+<!--                    </div>-->
+                    <div>
+                        <div>
+                            <h2 th:text="${courseDetail.workoutTitle}">운동 타이틀</h2>
+                            <h5 th:text="|${courseDetail.workoutSet}세트 ${courseDetail.workoutCount}회|">운동 세트 수, 세트당 횟수</h5>
+                            <h6 th:text="|부위 : ${courseDetail.workoutType == 'upper'? '상체' : courseDetail.workoutType == 'core'? '복부' : '하체' }|">운동 종류</h6>
+                            <h6 th:text="${courseDetail.workoutDescription}" style="white-space: pre-line">운동 설명</h6>
+                            <iframe width="420" height="315" th:src="${courseDetail.workoutYoutubePath}">유튜브</iframe>
+                        </div>
+                        <button onclick="workoutPlay()">운동 시작</button>
+                        <button onclick="next()">다음 운동</button>
+                        <button onclick="subcribeCourse()">도전</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 캐릭터 -->
+            <div class="col-md-4">
+                <img class="Ani" src="/img/basic.png">
+            </div>
+        </div>
+
+        <!-- progressbar -->
+        <div style="position: relative;" class="mt-5" sec:authorize="isAuthenticated()">
+            <img src="/img/prbar_img.png" width="80px" style="position: absolute; top: -16px; left: 115px;">
+            <div class="progress border">
+                <div id="Bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
+            </div>
+            <table class="prbarTbl mx-auto mt-2">
+                <tr>
+                    <td class="border-0"></td>
+                    <td>0</td>
+                    <td>10</td>
+                    <td>20</td>
+                    <td>30</td>
+                    <td>40</td>
+                    <td>50</td>
+                    <td>60</td>
+                    <td>70</td>
+                    <td>80</td>
+                    <td>90</td>
+                    <td class="border-0"></td>
+                </tr>
+            </table>
+        </div>
+    </main>
+    <!-- includeHTML function -->
+    <script src="/js/progressbar.js"></script>
+    <script src="/js/timeout.js"></script>
+</div>
+
+</html>

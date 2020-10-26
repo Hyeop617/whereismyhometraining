@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+</th:block>
+<div layout:fragment="content">
+    <main class="container">
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <h1 class="d-inline">전신 운동 🤘</h1>
+        </div>
+        <hr>
+        <!-- 운동 card view -->
+        <div class="grid-container">
+            <div class="card workout-card my-2 shadow" style="display:inline-block; margin: auto;" th:each="workout : ${all}">
+                <img class="card-img-top" th:src="${workout.imgPath}" style="width:100%">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${workout.title}" >{{ 운동이름 }}</h4>
+                    <!-- 자세히 modal -->
+                    <div th:replace="fragments/modal_wo :: modal_wo"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <h1 class="d-inline">상체 운동 🤘</h1>
+        </div>
+        <hr>
+        <!-- 운동 card view -->
+        <div class="grid-container">
+            <div class="card workout-card my-2 shadow" style="display:inline-block; margin: auto;" th:each="workout : ${upperList}">
+                <img class="card-img-top" th:src="${workout.imgPath}" style="width:100%">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${workout.title}" >{{ 운동이름 }}</h4>
+                    <!-- 자세히 modal -->
+                    <div th:replace="fragments/modal_wo :: modal_wo"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <h1 class="d-inline">하체 운동 🤘</h1>
+        </div>
+        <hr>
+        <!-- 운동 card view -->
+        <div class="grid-container">
+            <div class="card workout-card my-2 shadow" style="display:inline-block; margin: auto;" th:each="workout : ${lowerList}">
+                <img class="card-img-top" th:src="${workout.imgPath}" style="width:100%">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${workout.title}" >{{ 운동이름 }}</h4>
+                    <!-- 자세히 modal -->
+                    <div th:replace="fragments/modal_wo :: modal_wo"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <h1 class="d-inline">복근 운동 🤘</h1>
+        </div>
+        <hr>
+        <!-- 운동 card view -->
+        <div class="grid-container" style="margin-bottom: 135px;">
+            <div class="card workout-card my-2 shadow" style="display:inline-block; margin: auto;" th:each="workout : ${coreList}">
+                <img class="card-img-top" th:src="${workout.imgPath}" style="width:100%">
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${workout.title}" >{{ 운동이름 }}</h4>
+                    <!-- 자세히 modal -->
+                    <div th:replace="fragments/modal_wo :: modal_wo"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>

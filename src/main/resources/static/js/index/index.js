@@ -1,9 +1,9 @@
 login = function () {
-    const email = document.querySelector('[name=email]').value;
+    const username = document.querySelector('[name=username]').value;
     const password = document.querySelector('[name=password]').value;
-    if(email != '' && password != ''){
+    if(username != '' && password != ''){
         const user = {
-            email: email,
+            username: username,
             password: password
         };
         console.log(user);
@@ -19,7 +19,7 @@ login = function () {
             if (res.status === 401) {
                 alert("아이디 혹은 비밀번호를 확인해주세요.")
             } else if (res.status === 200){
-                document.location.href = '/course'
+                document.location.href = '/'
             }
         }).catch(err =>
           console.log(err)
