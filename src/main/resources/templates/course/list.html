@@ -49,7 +49,7 @@
                             th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                             <td th:text="${course.title}"></td>
                             <td th:text="${course.level}"></td>
-                            <td th:text="${course.period}"></td>
+                            <td th:text="|${course.period}일|"></td>
                             <td th:text="${course.description}"></td>
                         </tr>
                     </tbody>
@@ -81,7 +81,7 @@
                     <tr th:each="course : ${coreList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                         <td th:text="${course.title}"></td>
                         <td th:text="${course.level}"></td>
-                        <td th:text="${course.period}"></td>
+                        <td th:text="|${course.period}일|"></td>
                         <td th:text="${course.description}"></td>
                     </tr>
                     </tbody>
@@ -113,7 +113,7 @@
                     <tr th:each="course : ${lowerList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                         <td th:text="${course.title}"></td>
                         <td th:text="${course.level}"></td>
-                        <td th:text="${course.period}"></td>
+                        <td th:text="|${course.period}일|"></td>
                         <td th:text="${course.description}"></td>
                     </tr>
                     </tbody>

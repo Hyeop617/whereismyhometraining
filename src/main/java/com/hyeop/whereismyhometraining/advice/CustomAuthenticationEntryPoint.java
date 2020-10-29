@@ -13,7 +13,7 @@ import java.io.IOException;
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendRedirect("/error/403");
+        response.sendRedirect("/error/401");
         // ExceptionController에서 받음.
     }
 }

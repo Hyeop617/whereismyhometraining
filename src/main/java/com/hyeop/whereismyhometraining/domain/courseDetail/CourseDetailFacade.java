@@ -1,7 +1,7 @@
 package com.hyeop.whereismyhometraining.domain.courseDetail;
 
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
-import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class CourseDetailFacade {
         return courseDetailService.list(id);
     }
 
-    public ResponseEntity create(CourseDetailRequestDto dto) {
+    public ResponseEntity create(CourseDetailCreateRequestDto dto) {
         return courseDetailService.create(dto);
     }
 

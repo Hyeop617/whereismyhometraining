@@ -1,10 +1,12 @@
 package com.hyeop.whereismyhometraining.config;
 
 import com.hyeop.whereismyhometraining.advice.CustomAuthenticationEntryPoint;
+import com.hyeop.whereismyhometraining.advice.GlobalExceptionHandler;
 import com.hyeop.whereismyhometraining.config.oauth2.CustomOAuth2Provider;
 import com.hyeop.whereismyhometraining.config.oauth2.CustomOAuth2SuccessHandler;
 import com.hyeop.whereismyhometraining.domain.account.AccountService;
 import com.hyeop.whereismyhometraining.entity.RedisUtil;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    private CustomOAuth2UserService customOAuth2UserService;
 
     @Autowired
+    private GlobalExceptionHandler globalExceptionHandler;
+
+    @Autowired
     JwtProvider jwtProvider;
 
     @Autowired
@@ -61,11 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 유저 권한 필터 처리 전에 JWT 토큰 검사하는 필터 추가
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, cookieProvider, redisUtil), UsernamePasswordAuthenticationFilter.class)
                 // 권한 없을 시 예외 처리 추가
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .exceptionHandling()
+                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                    .accessDeniedHandler(globalExceptionHandler)
                     .and()
                 // 권한 설정
                 .authorizeRequests()
-                    .antMatchers("/course/**").authenticated()            // training 하위 페이지는 권한 필요
+                    .antMatchers("/mycourse", "/course", "/workout").authenticated()  // training 하위 페이지는 권한 필요
+                    .antMatchers("/admin").hasRole("ADMIN")
                     .anyRequest().permitAll()                                         // 그 외 페이지는 모두 허가
                     .and()
                 .logout()                                       // 로그아웃 시 설정

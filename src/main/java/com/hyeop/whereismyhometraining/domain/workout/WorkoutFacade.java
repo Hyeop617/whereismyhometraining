@@ -14,11 +14,15 @@ public class WorkoutFacade {
     @Autowired
     private WorkoutService workoutService;
 
-    public HashMap<String, List<Workout>> list(){
+    public HashMap<String, List<WorkoutResponseDto>> list(){
         return workoutService.list();
     }
 
     public List<WorkoutResponseDto> listAll(){
         return workoutService.listAll();
+    }
+
+    public WorkoutResponseDto getRandom() {
+        return workoutService.getRandom();
     }
 }

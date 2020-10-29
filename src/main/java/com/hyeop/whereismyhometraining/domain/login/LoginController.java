@@ -4,6 +4,7 @@ import com.hyeop.whereismyhometraining.entity.account.dto.LoginRequestDto;
 import com.hyeop.whereismyhometraining.entity.account.dto.SignupRequestDto;
 import com.hyeop.whereismyhometraining.entity.account.dto.SignupSnsRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class LoginController {
 
     private final LoginFacade loginFacade;
@@ -22,18 +24,12 @@ public class LoginController {
     @GetMapping("/")
     public String main(@AuthenticationPrincipal OAuth2User oAuth2User) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-        Object principal = authentication.getPrincipal();
-        System.out.println(principal);
-        return "index";
+        return "redirect:/workout/today";
     }
 
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal OAuth2User oAuth2User) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication);
-        Object principal = authentication.getPrincipal();
-        System.out.println(principal);
         return "login";
     }
 
@@ -45,6 +41,7 @@ public class LoginController {
     @ResponseBody
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDto dto) {
+        log.info("dto is {}", dto.toString());
         ResponseEntity<String> responseEntity = loginFacade.login(dto);
         return responseEntity;
     }

@@ -2,15 +2,12 @@ package com.hyeop.whereismyhometraining.mapper;
 
 import com.hyeop.whereismyhometraining.entity.course.Course;
 import com.hyeop.whereismyhometraining.entity.courseDetail.CourseDetail;
-import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import com.hyeop.whereismyhometraining.entity.workout.Workout;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
 
 @Mapper
 public interface CourseDetailMapper {
@@ -20,6 +17,8 @@ public interface CourseDetailMapper {
     @Mapping(source = "courseDetail.course.id", target = "courseId")
     @Mapping(source = "courseDetail.workout.id", target = "workoutId")
     @Mapping(source = "courseDetail.course.title", target = "courseTitle")
+    @Mapping(source = "courseDetail.course.level", target = "courseLevel")
+    @Mapping(source = "courseDetail.course.gender", target = "courseGender")
     @Mapping(source = "courseDetail.workout.title", target = "workoutTitle")
     @Mapping(source = "courseDetail.workout.type", target = "workoutType")
     @Mapping(source = "courseDetail.workout.youtubePath", target = "workoutYoutubePath")
@@ -29,7 +28,7 @@ public interface CourseDetailMapper {
     CourseDetailResponseDto toDto(CourseDetail courseDetail);
 
 
-    default CourseDetail toEntity(CourseDetailRequestDto dto) {
+    default CourseDetail toEntity(CourseDetailCreateRequestDto dto) {
         if(dto == null){
             return null;
         }
@@ -41,6 +40,7 @@ public interface CourseDetailMapper {
                 .workoutCount(dto.getWorkoutCount())
                 .workoutOrder(dto.getWorkoutOrder())
                 .workoutSet(dto.getWorkoutSet())
+                .workoutTime(dto.getWorkoutTime())
                 .build();
     }
 }

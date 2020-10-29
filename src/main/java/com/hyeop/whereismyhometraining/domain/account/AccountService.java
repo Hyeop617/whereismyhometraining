@@ -44,9 +44,6 @@ public class AccountService implements UserDetailsService {
     private RedisUtil redisUtil;
 
     @Autowired
-    private ResponseService responseService;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -62,6 +59,8 @@ public class AccountService implements UserDetailsService {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         } else if (Role.ADMIN.getAuth().equals(account.getRoleAuth())) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else if (Role.SNS.getAuth().equals(account.getRoleAuth())) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_SNS"));
         }
         return authorities;
     }
@@ -71,20 +70,21 @@ public class AccountService implements UserDetailsService {
         hm.put("result", new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
 
         accountRepository.findByUsernameAndSns(dto.getUsername(), Sns.NONE).ifPresent(account -> {
-            if (passwordEncoder.matches(dto.getPassword(), account.getPassword())) {
+            if (!passwordEncoder.matches(dto.getPassword(), account.getPassword())) {
                 hm.put("result", new ResponseEntity<>(HttpStatus.UNAUTHORIZED));
+            } else {
+                String accessToken = jwtProvider.createToken(account, JwtProvider.TOKEN_VALID_TIME);
+                String refreshToken = jwtProvider.createToken(account, JwtProvider.REFRESH_TOKEN_VALID_TIME);
+                // Token을 담은 Cookie 생성
+                ResponseCookie accessCookie = cookieProvider.createResponseCookie("accessToken", accessToken);
+                ResponseCookie refreshCookie = cookieProvider.createResponseCookie("refreshToken", refreshToken);
+                // Redis에 Refresh Token 저장
+                redisUtil.setDataExpire(account.getSns() + account.getUsername(), refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
+                hm.put("result", ResponseEntity.ok()
+                        .header(HttpHeaders.SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
+                        .body(accessToken)
+                );
             }
-            String accessToken = jwtProvider.createToken(account, JwtProvider.TOKEN_VALID_TIME);
-            String refreshToken = jwtProvider.createToken(account, JwtProvider.REFRESH_TOKEN_VALID_TIME);
-            // Token을 담은 Cookie 생성
-            ResponseCookie accessCookie = cookieProvider.createResponseCookie("accessToken", accessToken);
-            ResponseCookie refreshCookie = cookieProvider.createResponseCookie("refreshToken", refreshToken);
-            // Redis에 Refresh Token 저장
-            redisUtil.setDataExpire(account.getSns() + account.getUsername(), refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
-            hm.put("result", ResponseEntity.ok()
-                    .header(HttpHeaders.SET_COOKIE, accessCookie.toString(), refreshCookie.toString())
-                    .body(accessToken)
-            );
         });
         return hm.get("result");
     }

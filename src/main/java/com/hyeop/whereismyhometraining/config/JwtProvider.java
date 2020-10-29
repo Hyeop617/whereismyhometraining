@@ -37,13 +37,6 @@ public class JwtProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public Boolean checkSnsAccount(String token){
-        //TODO :: sout 지우기
-        Object sns = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("sns");
-        System.out.println("checkSnsAccount is ::: " + sns);
-        return sns.equals("NONE");
-    }
-
     public String createToken(Account account, Long validTime){
         Map<String, Object> claims = new HashMap<>();
         claims.put("username", account.getUsername());
@@ -54,6 +47,19 @@ public class JwtProvider {
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + validTime))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    public String createProfileEditToken(Account account){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", account.getUsername());
+        Date now = new Date();
+        return Jwts.builder()
+                .setSubject("EditAccess" + account.getUsername())
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 5 * 60 * 1000L))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }

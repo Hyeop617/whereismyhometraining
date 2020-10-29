@@ -1,4 +1,6 @@
 window.onload = function () {
+  courseChange()
+  keyEvent()
 }
 
 courseChange = function () {
@@ -30,7 +32,17 @@ courseChange = function () {
       newCell = newRow.insertCell(newRow.length);
       newCell.innerHTML = data[i].workoutCount;
       newCell = newRow.insertCell(newRow.length);
+      newCell.innerHTML = data[i].workoutTime;
+      newCell = newRow.insertCell(newRow.length);
       newCell.innerHTML = `<button onclick="remove(`+ data[i].id +`, this)">삭제</button>`;
+    }
+  })
+}
+
+function keyEvent(){
+  window.addEventListener("keydown", e => {
+    if(e.key == 'Enter'){
+      add()
     }
   })
 }
@@ -42,6 +54,7 @@ add = function () {
   const workoutOrder = document.querySelector("[name=newOrder]").value;
   const workoutSet = document.querySelector("[name=newSet]").value;
   const workoutCount = document.querySelector("[name=newCount]").value;
+  const workoutTime = document.querySelector("[name=newTime]").value;
   const tbody = document.querySelector('tbody');
 
   const dto = {
@@ -50,7 +63,8 @@ add = function () {
     day : day,
     workoutOrder : workoutOrder,
     workoutSet : workoutSet,
-    workoutCount : workoutCount
+    workoutCount : workoutCount,
+    workoutTime : workoutTime
   }
 
   fetch("/admin/course/add", {
@@ -69,13 +83,15 @@ add = function () {
     newCell = newRow.insertCell(newRow.length);
     newCell.innerHTML = workoutOrder;
     newCell = newRow.insertCell(newRow.length);
-    newCell.innerHTML = document.querySelectorAll("[name=newWorkout] option")[workoutId-1].innerText;
+    newCell.innerHTML = document.querySelector("[name=newWorkout] option:checked").innerText;
     newCell = newRow.insertCell(newRow.length);
     newCell.innerHTML = workoutSet;
     newCell = newRow.insertCell(newRow.length);
     newCell.innerHTML = workoutCount;
     newCell = newRow.insertCell(newRow.length);
-    newCell.innerHTML = `<button onclick="remove(`+ data[i].id +`, this)">삭제</button>`;
+    newCell.innerHTML = workoutTime;
+    newCell = newRow.insertCell(newRow.length);
+    newCell.innerHTML = `<button onclick="remove(${data}, this)">삭제</button>`;
   })
 }
 

@@ -1,3 +1,15 @@
+window.onload = function (){
+    keyEvent()
+}
+
+function keyEvent(){
+    window.addEventListener("keydown", e => {
+        if(e.key == 'Enter'){
+            login()
+        }
+    })
+}
+
 login = function () {
     const username = document.querySelector('[name=username]').value;
     const password = document.querySelector('[name=password]').value;

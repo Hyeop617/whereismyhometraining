@@ -1,5 +1,6 @@
 package com.hyeop.whereismyhometraining.entity.userCourse;
 
+import com.hyeop.whereismyhometraining.entity.BaseTimeEntity;
 import com.hyeop.whereismyhometraining.entity.account.Account;
 import com.hyeop.whereismyhometraining.entity.course.Course;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class UserCourse {
+public class UserCourse extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,5 +32,18 @@ public class UserCourse {
 
     private Integer workoutOrder;                  // 진행 중인 당일 운동 순서
 
-    private String isFinish;                // 완료 여부 (yes : 완료, no : 진행 중)
+    private Boolean isFinish;                // 완료 여부 (yes : 완료, no : 진행 중)
+
+    public void changeDay(Integer day) {
+        this.day = day;
+    }
+
+    public void changeOrder(Integer order){
+        this.workoutOrder = order;
+    }
+
+    public void changeFinish(Boolean bool){
+        this.isFinish = bool;
+    }
+
 }

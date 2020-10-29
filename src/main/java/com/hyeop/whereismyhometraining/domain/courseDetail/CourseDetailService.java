@@ -5,7 +5,7 @@ import com.hyeop.whereismyhometraining.entity.course.CourseRepository;
 import com.hyeop.whereismyhometraining.entity.courseDetail.CourseDetail;
 import com.hyeop.whereismyhometraining.entity.courseDetail.CourseDetailRepository;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
-import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import com.hyeop.whereismyhometraining.mapper.CourseDetailMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +38,15 @@ public class CourseDetailService {
                 .orElseThrow(() -> new RuntimeException("코스가 없습니다."));
         CourseDetail courseDetail = courseDetailRepository.findByCourseAndDayAndWorkoutOrder(course, day, order)
                 .orElseThrow();
-        return CourseDetailMapper.INSTANCE.toDto(courseDetail);
+        CourseDetailResponseDto responseDto = CourseDetailMapper.INSTANCE.toDto(courseDetail);
+        responseDto.setIsFirst(order.equals(1));
+        Long count = course.getCourseDetails().stream().filter(detail -> detail.getDay().equals(day)).count();
+        responseDto.setIsEnd(order.equals(count.intValue()));
+        return responseDto;
 
     }
 
-    public ResponseEntity create(CourseDetailRequestDto dto) {
+    public ResponseEntity create(CourseDetailCreateRequestDto dto) {
         CourseDetail courseDetail = CourseDetailMapper.INSTANCE.toEntity(dto);
         CourseDetail save = courseDetailRepository.save(courseDetail);
         return ResponseEntity.ok().body(save.getId());

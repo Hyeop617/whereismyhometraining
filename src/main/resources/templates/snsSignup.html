@@ -47,8 +47,8 @@
                             <label>성별</label>
                             <select class="custom-select d-block w-100" name="gender" required>
                                 <option value="">성별을 선택해주세요.</option>
-                                <option value="남성">남성</option>
-                                <option value="여성">여성</option>
+                                <option value="M">남성</option>
+                                <option value="F">여성</option>
                             </select>
                             <span name="genderAlert" class="text-danger d-none">성별을 선택해주세요.</span>
                         </div>
@@ -66,6 +66,41 @@
                                 <option value="60">60대 이상</option>
                             </select>
                             <span name="ageAlert" class="text-danger d-none">나이를 선택해주세요.</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h6 style="color:rgb(150,30,30)">형태는 가입 후 변경하실 수 없습니다.<br>신중히 선택해 주세요.</h6>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label>상체 형태</label>
+                            <select class="custom-select d-block w-100" name="upperLevel" required>
+                                <option value="">선택</option>
+                                <option value="-30">마름</option>
+                                <option value="0">보통</option>
+                                <option value="30">발달</option>
+                            </select>
+                            <span name="upperAlert" class="text-danger d-none">상체 형태를 선택해주세요.</span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>복부 형태</label>
+                            <select class="custom-select d-block w-100" name="coreLevel" required>
+                                <option value="">선택</option>
+                                <option value="30">마름</option>
+                                <option value="0">보통</option>
+                                <option value="-30">비만</option>
+                            </select>
+                            <span name="coreAlert" class="text-danger d-none">복부 형태를 선택해주세요.</span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label>하체 형태</label>
+                            <select class="custom-select d-block w-100" name="lowerLevel" required>
+                                <option value="">선택</option>
+                                <option value="30">마름</option>
+                                <option value="0">보통</option>
+                                <option value="-30">발달</option>
+                            </select>
+                            <span name="lowerAlert" class="text-danger d-none">하체 형태를 선택해주세요.</span>
                         </div>
                     </div>
                     <h4 class="mb-3">평소 운동 여부</h4>

@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/profile/edit.js"></script>
+    <script>
+        const role = '[[${account.role.getAuth()}]]';
+        const emailPrev = '[[${account.email}]]'
+        let gender = '[[${account.gender}]]'
+        let age = '[[${account.age}]]'
+        let level = '[[${account.level}]]'
+    </script>
+</th:block>
+<div layout:fragment="content">
+    <main class="container w-50 d-flex flex-column justify-content-center" style="max-width: 700px">
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <p class="d-inline text-center d-block" style="font-size: 34px;">회원정보 변경</p>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-center">
+            <div class="mb-4 p-3 d-flex justify-content-center w-100" style="background-color:#7770f010;">
+                <div class="d-flex flex-column justify-content-center align-items-center w-100 pt-5" style=" max-width: 600px">
+                    <!--                //TODO :: SNS user? 체크-->
+                    <div class="mb-3 w-100" sec:authorize="hasRole('ROLE_USER')">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">비밀번호</label>
+                            <input type="password" class="form-control" style="font-family: Arial;" name="password" required>
+                        </div>
+                        <span name="passwordAlert" class="text-danger d-none"></span>
+                    </div>
+                    <div class="mb-3 w-100" sec:authorize="hasRole('ROLE_USER')">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">비밀번호 확인</label>
+                            <input type="password" class="form-control" style="font-family: Arial" name="password2" required>
+                        </div>
+                        <span name="passwordAlert2" class="text-danger d-none">비밀번호가 맞지 않습니다.</span>
+                    </div>
+                    <div class="mb-3 w-100">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">이메일</label>
+                            <input type="email" class="form-control" name="email" placeholder="for@example.com"
+                                   th:value="${account.email}" required>
+                        </div>
+                        <span name="emailSuccess" class="text-success d-none">사용가능한 이메일 입니다.</span>
+                        <span name="emailAlert" class="text-danger d-none">중복된 이메일 입니다.</span>
+                    </div>
+                    <div class="mb-3 w-100 d">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">닉네임</label>
+                            <input type="text" class="form-control" name="nickname" placeholder="@홍길동"
+                                   th:value="${account.nickname}" required>
+                        </div>
+                        <span name="nicknameAlert" class="text-danger d-none">닉네임을 입력해주세요.</span>
+                    </div>
+                    <div class="mb-3 w-100">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">성별</label>
+                            <select class="custom-select d-block w-100" name="gender"
+                                    th:value="${account.gender}" required>
+                                <option value="">성별을 선택해주세요.</option>
+                                <option value="M">남성</option>
+                                <option value="F">여성</option>
+                            </select>
+                        </div>
+                        <span name="genderAlert" class="text-danger d-none">성별을 선택해주세요.</span>
+                    </div>
+                    <div class="mb-3 w-100">
+                        <div class="d-flex align-items-center">
+                            <label style="min-width: 150px">연령대</label>
+                            <select class="custom-select d-block w-100" name="age" required>
+                                <option value="">선택</option>
+                                <option value="10">10대</option>
+                                <option value="20">20대</option>
+                                <option value="30">30대</option>
+                                <option value="40">40대</option>
+                                <option value="50">50대</option>
+                                <option value="60">60대 이상</option>
+                            </select>
+                        </div>
+                        <span name="ageAlert" class="text-danger d-none">나이를 선택해주세요.</span>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="d-flex flex-column justify-content-center align-items-center my-3">
+                            <p>평소 운동 여부</p>
+                            <div class="d-flex flex-column my-3 text-left justify-content-center">
+                                <div class="custom-control custom-radio">
+                                    <input id="4" name="level" type="radio" value="4" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="4">많이 운동하는 편</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="3" name="level" type="radio" value="3" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="3">그럭저럭 운동하는 편</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="2" name="level" type="radio" value="2" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="2">그다지 운동하지 않는 편</label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input id="1" name="level" type="radio" value="1" class="custom-control-input" required>
+                                    <label class="custom-control-label" for="1">전혀 운동하지 않는 편</label>
+                                </div>
+                            </div>
+                        </div>
+                        <span name="levelAlert" class="text-danger d-none">운동 여부를 선택해주세요.</span>
+                    </div>
+                    <div>
+                        <button class="mt-1 border-0" style="background: rgba(112,169,240,1); color: white; height: 48px; width: 300px" onclick="edit()">확인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</html>

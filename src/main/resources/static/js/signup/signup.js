@@ -11,7 +11,29 @@ window.onload = function () {
     genderCheck();
     ageCheck();
     levelCheck();
+    shapeCheck();
 };
+
+function shapeCheck(){
+    const upperLevel = document.querySelector('[name=upperLevel]')
+    const upperAlert = document.querySelector('[name=upperAlert]')
+    const coreLevel = document.querySelector('[name=coreLevel]')
+    const coreAlert = document.querySelector('[name=coreAlert]')
+    const lowerLevel = document.querySelector('[name=lowerLevel]')
+    const lowerAlert = document.querySelector('[name=lowerAlert]')
+
+    upperLevel.addEventListener('focus', function (){
+        upperAlert.classList.add('d-none');
+    })
+
+    coreLevel.addEventListener('focus', function (){
+        coreAlert.classList.add('d-none');
+    })
+
+    lowerLevel.addEventListener('focus', function (){
+        lowerAlert.classList.add('d-none');
+    })
+}
 
 nicknameCheck = function (){
     const nickname = document.querySelector('[name=nickname]')
@@ -115,6 +137,7 @@ emailCheck = function () {
             })
         }else {
             emailAlert.innerText = '이메일 형식을 확인해주세요.';
+            emailSuccess.classList.add('d-none');
             emailAlert.classList.remove('d-none');
         }
     })
@@ -164,7 +187,47 @@ validate = function () {
     genderValidation()
     ageValidation()
     levelValidation()
-    return emailValidation && passwordValidation && nicknameValidation && genderValidation && ageValidation && levelValidation();
+    shapeValidation()
+    return usernameValidation && emailValidation && passwordValidation
+            && nicknameValidation && genderValidation && ageValidation && levelValidation() && shapeValidation();
+}
+
+function shapeValidation(){
+    const upperLevel = document.querySelector('[name=upperLevel]')
+    const upperAlert = document.querySelector('[name=upperAlert]')
+    const coreLevel = document.querySelector('[name=coreLevel]')
+    const coreAlert = document.querySelector('[name=coreAlert]')
+    const lowerLevel = document.querySelector('[name=lowerLevel]')
+    const lowerAlert = document.querySelector('[name=lowerAlert]')
+    let upperBlank = true
+    let coreBlank = true
+    let lowerBlank = true
+
+    if(upperLevel.value == ''){
+        upperAlert.classList.remove('d-none');
+        upperBlank = true
+    }else {
+        upperAlert.classList.add('d-none');
+        upperBlank = false
+    }
+
+    if(coreLevel.value == ''){
+        coreAlert.classList.remove('d-none');
+        coreBlank = true
+    }else {
+        upperAlert.classList.add('d-none');
+        coreBlank = false
+    }
+
+    if(lowerLevel.value == ''){
+        lowerAlert.classList.remove('d-none');
+        lowerBlank = true
+    }else {
+        lowerAlert.classList.add('d-none');
+        lowerBlank = false
+    }
+
+    return !upperBlank && !coreBlank && !lowerBlank;
 }
 
 usernameValidation = function () {
@@ -278,9 +341,12 @@ signup = function () {
                 email: document.querySelector('[name=email]').value,
                 password: document.querySelector('[name=password]').value,
                 nickname: document.querySelector('[name=nickname]').value,
-                gender: document.querySelector('[name=gender]').value,
+                gender: document.querySelector('[name=gender]').value == 'M' ? "M" : "F",
                 age: document.querySelector('[name=age]').value,
                 level: document.querySelector('[name=level]:checked').value,
+                upperLevel: document.querySelector('[name=upperLevel]').value,
+                coreLevel: document.querySelector('[name=coreLevel]').value,
+                lowerLevel: document.querySelector('[name=lowerLevel]').value,
             };
             fetch("/signup/execute", {
                 method: 'post',

@@ -1,6 +1,7 @@
 package com.hyeop.whereismyhometraining.domain.workout;
 
-import com.hyeop.whereismyhometraining.entity.workout.Workout;
+import com.hyeop.whereismyhometraining.entity.workout.dto.WorkoutResponseDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/workout")
+@Slf4j
 public class WorkoutController {
 
     @Autowired
@@ -19,12 +21,16 @@ public class WorkoutController {
 
     @GetMapping(value = {"", "/list"})
     public String list(Model model) {
-        Map<String, List<Workout>> workoutList = workoutFacade.list();
-        model.addAttribute("upperList", workoutList.get("upperList"));
-        model.addAttribute("lowerList", workoutList.get("lowerList"));
-        model.addAttribute("coreList", workoutList.get("coreList"));
-        model.addAttribute("all", workoutList.get("all"));
+        Map<String, List<WorkoutResponseDto>> workoutList = workoutFacade.list();
+        model.addAttribute("list", workoutList);
         return "workout/list";
+    }
+
+    @GetMapping("/today")
+    public String today(Model model){
+        WorkoutResponseDto responseDto = workoutFacade.getRandom();
+        model.addAttribute("workout", responseDto);
+        return "workout/today";
     }
 
 }

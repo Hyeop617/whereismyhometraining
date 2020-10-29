@@ -18,6 +18,10 @@ public class CourseDetailResponseDto {
 
     private String courseDescription;
 
+    private Integer courseLevel;
+
+    private String courseGender;
+
     private Integer day;
 
     private Long workoutId;
@@ -37,4 +41,12 @@ public class CourseDetailResponseDto {
     private Integer workoutCount;
 
     private Integer workoutOrder;
+
+    private Integer workoutTime;
+
+    private Boolean isFirst;
+
+    private Boolean isEnd;
+
+    private Integer progressDay;
 }

@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum Role {
 
     USER("ROLE_USER", "사용자"),
+    SNS("ROLE_SNS", "SNS 사용자"),
     ADMIN("ROLE_ADMIN", "관리자");
 
     private String auth;

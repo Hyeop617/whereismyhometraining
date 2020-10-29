@@ -35,5 +35,7 @@ public class CourseDetail {
 
     private Integer workoutCount;
 
+    private Integer workoutTime;
+
     private Integer workoutOrder;
 }

@@ -4,15 +4,28 @@
 <th:block layout:fragment="css">
 
 </th:block>
-
 <th:block layout:fragment="js">
 
 </th:block>
 <div layout:fragment="content">
+
     <main class="container">
-        <div style="margin-top: 110px;">
-            <h1 th:text="${result.message}">뭐</h1>
-            <button class="btn btn-primary" onclick="goToMain()">돌아가기</button>
+        <div class="row" style="margin-top: 135px;">
+            <div class="col-md-8">
+                <div class="jumbotron py-3">
+                    <h1 class="display-5" style="color: #70a9f0;">구해줘! 홈트</h1>
+                    <h6 style="color: #6a6c70; margin-bottom: 0;">코로나로 힘든 지금! 헬스장이 가기 무서운 당신에게 추천합니다!</h6>
+                </div>
+                <!-- 메인 컨텐츠 -->
+                <div>
+                    <h2 class="d-inline" th:text="${result.getMessage()}">로그인 하신 뒤 이용하실 수 있습니다.</h2>
+                </div>
+                <button class="btn btn-primary" onclick="goToMain()">돌아가기</button>
+            </div>
+            <!-- 캐릭터 -->
+            <div class="col-md-4">
+                <img class="Ani" src="/img/basic.png">
+            </div>
         </div>
     </main>
 </div>

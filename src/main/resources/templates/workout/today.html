@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+</th:block>
+
+<div layout:fragment="content">
+
+    <main class="container">
+        <div class="row" style="margin-top: 135px;">
+            <div class="col-md-8">
+                <div class="jumbotron py-3">
+                    <h1 class="display-5" style="color: #70a9f0;">구해줘! 홈트</h1>
+                    <h6 style="color: #6a6c70; margin-bottom: 0;">코로나로 힘든 지금! 헬스장이 가기 무서운 당신에게 추천합니다!</h6>
+                </div>
+                <div>
+                    <div class="mb-3">
+                        <h2 class="d-inline" th:text="|💪 오늘의 운동 / ${workout.title}|">💪 오늘의 운동</h2>
+                    </div>
+                    <div class="col-md-6 pr-4 d-flex w-100 align-items-center justify-content-center" style="min-width: 600px; min-height: auto">
+                        <!-- 운동 이미지 -->
+                        <div style="width: 500px">
+                            <img class="mb-3 rounded-lg" th:src="${workout.imgPath}" name="workoutImgPath" width="auto" height="300px;">
+                            <!-- 운동 설명 -->
+                            <span class="text-muted mt-3" th:text="${workout.description}"
+                                  name="workoutDescrtipion" style="white-space: pre-line">
+                            </span>
+                        </div>
+                    </div>
+                    <hr>
+                    <!-- 영상, 버튼 -->
+                    <div class="pl-4 d-flex flex-column justify-content-between">
+                        <!-- 운동 영상 -->
+                        <div class="embed-responsive embed-responsive-4by3 rounded-lg mb-1">
+                            <iframe class="embed-responsive-item" th:src="${workout.youtubePath}"
+                                    allowfullscreen style="width: 90%; height: 90%" name="workoutYoutubePath"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 캐릭터 -->
+            <div class="col-md-4">
+                <img class="Ani" src="/img/basic.png">
+            </div>
+        </div>
+    </main>
+</div>
+
+</html>

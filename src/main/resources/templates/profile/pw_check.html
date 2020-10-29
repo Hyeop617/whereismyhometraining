@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/profile/pw_check.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <main class="container w-50 justify-content-center align-items-center d-flex flex-column">
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <p class="d-inline text-center d-block">회원님의 개인정보를 안전하게 보호하기 위해<br> 인증 후 변경이 가능합니다.</p>
+        </div>
+        <hr>
+        <div class="mb-4 p-5 justify-content-center text-center w-50" style="background-color:#7770f010;">
+            <div class="d-flex flex-column justify-content-center w-100">
+                <div>
+                    <input class="w-75 justify-content-center p-2" name="passwordInput" style="font-family: Arial; height: 48px; font-size: 16px;"
+                           type="password" placeholder="비밀번호를 입력하세요.">
+                </div>
+                <div>
+                    <button class="w-75 mt-1 border-0" style="background: rgba(112,169,240,1); color: white; height: 48px;" onclick="check()">확인</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</html>

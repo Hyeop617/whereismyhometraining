@@ -26,25 +26,15 @@
                 <div sec:authorize="isAuthenticated()">
                     <div class="mb-3">
                         <h2 class="d-inline">코스 생성 페이지</h2>
-                        <!-- 일차 선택 dropdown -->
-                        <div class="dropdown float-right align-middle">
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">1일차</a>
-                                <a class="dropdown-item" href="#">2일차</a>
-                                <a class="dropdown-item" href="#">3일차</a>
-                                <a class="dropdown-item" href="#">...</a>
-                            </div>
-                        </div>
                     </div>
-                    <!-- 운동 modal -->
-                    <div>
+                    <div class="mb-3">
                         <select name="course" id="course" onchange="courseChange()">
                             <option th:each="course : ${courseList}" th:with="courseId = ${course.id}" th:value="${course.id}" th:text="${course.title}"></option>
                         </select>
 
                         <div class="border-top border-bottom">
                             <!-- {% for modal %}-->
-                            <div>
+                            <div style="overflow: auto; height: 600px;" name="tableContainer">
                                 <table>
                                     <thead>
                                         <th>날짜</th>
@@ -52,6 +42,7 @@
                                         <th>제목</th>
                                         <th>세트수</th>
                                         <th>횟수</th>
+                                        <th>시간 (초)</th>
                                         <th></th>
                                     </thead>
                                     <tbody id="tbody">
@@ -63,6 +54,7 @@
                                         </select></td>
                                         <td><input type="text" name="newSet" placeholder="세트수" style="width: 80px"></td>
                                         <td><input type="text" name="newCount" placeholder="횟수" style="width: 80px"></td>
+                                        <td><input type="text" name="newTime" placeholder="시간 (초)" style="width: 80px"></td>
                                         <td><button onclick="add()">추가</button></td>
                                         <input type="hidden" th:value="${workout.}">
                                     </tr>
@@ -72,6 +64,24 @@
                             </div>
                             <!-- {% endfor %} -->
                         </div>
+                        <div style="height: 200px">
+                            asdf
+                            <div class="addRow2">
+                                <div><input type="text" name="newDay" placeholder="날짜" style="width: 50px"></div>
+                                <div><input type="text" name="newOrder" placeholder="순서" style="width: 50px"></div>
+                                <div><select name="newWorkout">
+                                    <option th:each="workout : ${workoutList}" th:value="${workout.id}" th:text="${workout.title}"></option>
+                                </select></div>
+                                <div><input type="text" name="newSet" placeholder="세트수" style="width: 80px"></div>
+                                <div><input type="text" name="newCount" placeholder="횟수" style="width: 80px"></div>
+                                <div><input type="text" name="newTime" placeholder="시간 (초)" style="width: 80px"></div>
+                                <div><button onclick="add()">추가</button></div>
+                                <input type="hidden" th:value="${workout.}">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        asdf
                     </div>
 
                 </div>

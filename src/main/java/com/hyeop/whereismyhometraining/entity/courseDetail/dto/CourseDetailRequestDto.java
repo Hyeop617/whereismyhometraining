@@ -1,22 +1,14 @@
 package com.hyeop.whereismyhometraining.entity.courseDetail.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@Builder
-@NoArgsConstructor
+@ToString
 public class CourseDetailRequestDto {
     private Long courseId;
-
-    private Long workoutId;
-
     private Integer day;
-
-    private Integer workoutSet;
-
-    private Integer workoutCount;
-
-    private Integer workoutOrder;
+    private Integer order;
 }

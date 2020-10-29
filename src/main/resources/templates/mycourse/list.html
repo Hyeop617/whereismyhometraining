@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/index/index.js"></script>
+</th:block>
+<div layout:fragment="content">
+    <main class="container">
+        <!-- inpage title -->
+        <div class="inPgTitle">
+            <i class="material-icons" style="font-size:50px; vertical-align: bottom;">directions_run</i>
+            <h1 class="d-inline">All Routines</h1>
+        </div>
+        <hr>
+
+        <!-- 상체 Accordion -->
+        <div class="card shadow-sm mb-4 w-100" style="background-color:#7770f010;">
+            <div class="card-header">
+                진행중인 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center w-100">
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                        <th>이름</th>
+                        <th>레벨</th>
+                        <th>기간</th>
+                        <th>설명</th>
+                        <th>시작 날짜</th>
+                        <th>진행률</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="course : ${list}"
+                            th:onclick="|window.location.href = '/mycourse/${course.courseId}'|">
+                            <td th:text="${course.title}"></td>
+                            <td th:text="${course.level}"></td>
+                            <td th:text="|${course.period}일|"></td>
+                            <td th:text="${course.description}"></td>
+                            <td th:text="${course.createDate}"></td>
+                            <td th:text="|${course.progress}%|"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+        <div class="card shadow-sm mb-4 w-100" style="background-color:#7770f010;">
+            <div class="card-header">
+                완료한 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center w-100">
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                    <th>이름</th>
+                    <th>레벨</th>
+                    <th>기간</th>
+                    <th>설명</th>
+                    <th>완료 날짜</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="course : ${finished}">
+                        <td th:text="${course.title}"></td>
+                        <td th:text="${course.level}"></td>
+                        <td th:text="|${course.period}일|"></td>
+                        <td th:text="${course.description}"></td>
+                        <td th:text="${course.modifyDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+
+    </main>
+
+</div>
+
+</html>
