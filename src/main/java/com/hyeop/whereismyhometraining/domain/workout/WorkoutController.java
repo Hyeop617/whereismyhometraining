@@ -1,5 +1,6 @@
 package com.hyeop.whereismyhometraining.domain.workout;
 
+import com.hyeop.whereismyhometraining.domain.common.CommonUtil;
 import com.hyeop.whereismyhometraining.entity.workout.dto.WorkoutResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class WorkoutController {
 
     @Autowired
+    private CommonUtil commonUtil;
+
+    @Autowired
     private WorkoutFacade workoutFacade;
 
     @GetMapping(value = {"", "/list"})
@@ -29,6 +33,7 @@ public class WorkoutController {
     @GetMapping("/today")
     public String today(Model model){
         WorkoutResponseDto responseDto = workoutFacade.getRandom();
+        model.addAttribute("shapeImgPath", commonUtil.checkAccountShpaeImgPath());
         model.addAttribute("workout", responseDto);
         return "workout/today";
     }

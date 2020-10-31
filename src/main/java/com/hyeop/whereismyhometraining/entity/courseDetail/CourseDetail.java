@@ -1,6 +1,8 @@
 package com.hyeop.whereismyhometraining.entity.courseDetail;
 
+import com.hyeop.whereismyhometraining.entity.BaseTimeEntity;
 import com.hyeop.whereismyhometraining.entity.course.Course;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailModifyRequestDto;
 import com.hyeop.whereismyhometraining.entity.workout.Workout;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +16,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class CourseDetail {
+public class CourseDetail extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,8 +31,6 @@ public class CourseDetail {
     @JoinColumn(name = "workout_id")
     private Workout workout;
 
-    private String workoutType;
-
     private Integer workoutSet;
 
     private Integer workoutCount;
@@ -38,4 +38,12 @@ public class CourseDetail {
     private Integer workoutTime;
 
     private Integer workoutOrder;
+
+    public void change(CourseDetailModifyRequestDto dto) {
+        workoutCount = dto.getWorkoutCount();
+        workoutTime = dto.getWorkoutTime();
+        workoutOrder = dto.getWorkoutOrder();
+        workoutSet = dto.getWorkoutSet();
+        day = dto.getDay();
+    }
 }

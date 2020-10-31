@@ -4,20 +4,18 @@ import com.hyeop.whereismyhometraining.domain.course.CourseFacade;
 import com.hyeop.whereismyhometraining.domain.courseDetail.CourseDetailFacade;
 import com.hyeop.whereismyhometraining.domain.workout.WorkoutFacade;
 import com.hyeop.whereismyhometraining.entity.course.dto.CourseResponseDto;
-import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailModifyRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import com.hyeop.whereismyhometraining.entity.workout.dto.WorkoutResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -54,8 +52,6 @@ public class AdminController {
     @PostMapping("/course/add")
     @ResponseBody
     public ResponseEntity create(@RequestBody CourseDetailCreateRequestDto dto) {
-        //TODO :: sout
-        System.out.println(dto.getWorkoutTime());
         return courseDetailFacade.create(dto);
     }
 
@@ -63,6 +59,11 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity delete(@RequestBody CourseDetailDeleteRequestDto id) {
         return courseDetailFacade.delete(id);
+    }
 
+    @PostMapping("/course/modify")
+    @ResponseBody
+    public ResponseEntity modify(@RequestBody CourseDetailModifyRequestDto dto) {
+        return courseDetailFacade.modify(dto);
     }
 }

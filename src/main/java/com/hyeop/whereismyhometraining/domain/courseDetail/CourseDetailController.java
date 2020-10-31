@@ -21,12 +21,6 @@ public class CourseDetailController {
     @Autowired
     private CourseFacade courseFacade;
 
-    @GetMapping("/")
-    public String list() {
-        courseFacade.list();
-        return "/courseDetail/list";
-    }
-
     @GetMapping("/{id}")
     public String view(@PathVariable Long id,
                        @RequestParam(defaultValue = "1") Integer day,

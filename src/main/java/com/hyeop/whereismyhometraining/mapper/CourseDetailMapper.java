@@ -20,7 +20,6 @@ public interface CourseDetailMapper {
     @Mapping(source = "courseDetail.course.level", target = "courseLevel")
     @Mapping(source = "courseDetail.course.gender", target = "courseGender")
     @Mapping(source = "courseDetail.workout.title", target = "workoutTitle")
-    @Mapping(source = "courseDetail.workout.type", target = "workoutType")
     @Mapping(source = "courseDetail.workout.youtubePath", target = "workoutYoutubePath")
     @Mapping(source = "courseDetail.workout.imgPath", target = "workoutImgPath")
     @Mapping(source = "courseDetail.workout.description", target = "workoutDescription")

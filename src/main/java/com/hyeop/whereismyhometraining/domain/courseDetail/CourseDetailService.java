@@ -6,16 +6,20 @@ import com.hyeop.whereismyhometraining.entity.courseDetail.CourseDetail;
 import com.hyeop.whereismyhometraining.entity.courseDetail.CourseDetailRepository;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailModifyRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import com.hyeop.whereismyhometraining.mapper.CourseDetailMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class CourseDetailService {
 
     @Autowired
@@ -54,6 +58,13 @@ public class CourseDetailService {
 
     public ResponseEntity delete(CourseDetailDeleteRequestDto id) {
         courseDetailRepository.deleteById(id.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    public ResponseEntity modify(CourseDetailModifyRequestDto dto) {
+        CourseDetail courseDetail = courseDetailRepository.findById(dto.getId()).orElseThrow(() -> new RuntimeException("course not found"));
+        courseDetail.change(dto);
+        courseDetailRepository.save(courseDetail);
         return ResponseEntity.ok().build();
     }
 }

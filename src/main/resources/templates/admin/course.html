@@ -12,9 +12,9 @@
 
 <div layout:fragment="content">
 
-    <main class="container">
-        <div class="row" style="margin-top: 135px;">
-            <div class="col-md-8">
+    <main class="container" style="width: 1024px">
+        <div class="row" style="margin-top: 135px; width: 1024px">
+            <div>
                 <div class="jumbotron py-3">
                     <h1 class="display-5" style="color: #70a9f0;">구해줘! 홈트</h1>
                     <h6 style="color: #6a6c70; margin-bottom: 0;">코로나로 힘든 지금! 헬스장이 가기 무서운 당신에게 추천합니다!</h6>
@@ -35,90 +35,54 @@
                         <div class="border-top border-bottom">
                             <!-- {% for modal %}-->
                             <div style="overflow: auto; height: 600px;" name="tableContainer">
-                                <table>
+                                <table class="table">
                                     <thead>
+                                        <th width="80px">아이디</th>
                                         <th>날짜</th>
                                         <th>순서</th>
-                                        <th>제목</th>
+                                        <th width="220px">제목</th>
                                         <th>세트수</th>
                                         <th>횟수</th>
                                         <th>시간 (초)</th>
                                         <th></th>
+                                        <th></th>
                                     </thead>
                                     <tbody id="tbody">
-                                    <tr class="addRow">
-                                        <td><input type="text" name="newDay" placeholder="날짜" style="width: 50px"></td>
-                                        <td><input type="text" name="newOrder" placeholder="순서" style="width: 50px"></td>
-                                        <td><select name="newWorkout">
-                                            <option th:each="workout : ${workoutList}" th:value="${workout.id}" th:text="${workout.title}"></option>
-                                        </select></td>
-                                        <td><input type="text" name="newSet" placeholder="세트수" style="width: 80px"></td>
-                                        <td><input type="text" name="newCount" placeholder="횟수" style="width: 80px"></td>
-                                        <td><input type="text" name="newTime" placeholder="시간 (초)" style="width: 80px"></td>
-                                        <td><button onclick="add()">추가</button></td>
-                                        <input type="hidden" th:value="${workout.}">
-                                    </tr>
-
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- {% endfor %} -->
                         </div>
-                        <div style="height: 200px">
-                            asdf
-                            <div class="addRow2">
-                                <div><input type="text" name="newDay" placeholder="날짜" style="width: 50px"></div>
-                                <div><input type="text" name="newOrder" placeholder="순서" style="width: 50px"></div>
-                                <div><select name="newWorkout">
+                        <div class="mt-5" style="height: 200px">
+                            <div class="addRow d-flex">
+                                <div style="width:80px"></div>
+                                <div class="m-2">
+                                    <input class="form-control" type="text" name="newDay" placeholder="날짜" style="width: 60px">
+                                </div>
+                                <div class="m-2">
+                                    <input class="form-control" type="text" name="newOrder" placeholder="순서" style="width: 60px">
+                                </div>
+                                <div class="m-2">
+                                    <select name="newWorkout" class="custom-select">
                                     <option th:each="workout : ${workoutList}" th:value="${workout.id}" th:text="${workout.title}"></option>
-                                </select></div>
-                                <div><input type="text" name="newSet" placeholder="세트수" style="width: 80px"></div>
-                                <div><input type="text" name="newCount" placeholder="횟수" style="width: 80px"></div>
-                                <div><input type="text" name="newTime" placeholder="시간 (초)" style="width: 80px"></div>
-                                <div><button onclick="add()">추가</button></div>
-                                <input type="hidden" th:value="${workout.}">
+                                </select>
+                                </div>
+                                <div class="m-2">
+                                    <input class="form-control" type="text" name="newSet" placeholder="세트수" style="width: 70px">
+                                </div>
+                                <div class="m-2">
+                                    <input class="form-control" type="text" name="newCount" placeholder="횟수" style="width: 70px">
+                                </div>
+                                <div class="m-2">
+                                    <input class="form-control" type="text" name="newTime" placeholder="시간 (초)" style="width: 90px">
+                                </div>
+                                <div class="m-2">
+                                    <button class="btn btn-primary" onclick="add()">추가</button></div>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        asdf
-                    </div>
-
                 </div>
             </div>
-            <!-- 캐릭터 -->
-            <div class="col-md-4">
-                <img class="Ani" src="/img/basic.png">
-            </div>
         </div>
-
-        <!-- progressbar -->
-        <div style="position: relative;" class="mt-5" sec:authorize="isAuthenticated()">
-            <img src="/img/prbar_img.png" width="80px" style="position: absolute; top: -16px; left: 115px;">
-            <div class="progress border">
-                <div id="Bar" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%;"></div>
-            </div>
-            <table class="prbarTbl mx-auto mt-2">
-                <tr>
-                    <td class="border-0"></td>
-                    <td>0</td>
-                    <td>10</td>
-                    <td>20</td>
-                    <td>30</td>
-                    <td>40</td>
-                    <td>50</td>
-                    <td>60</td>
-                    <td>70</td>
-                    <td>80</td>
-                    <td>90</td>
-                    <td class="border-0"></td>
-                </tr>
-            </table>
-        </div>
-    </main>
-    <!-- includeHTML function -->
-    <script src="/js/progressbar.js"></script>
-    <script src="/js/timeout.js"></script>
 </div>
 
 </html>

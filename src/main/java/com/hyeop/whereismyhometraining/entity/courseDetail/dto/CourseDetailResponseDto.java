@@ -28,8 +28,6 @@ public class CourseDetailResponseDto {
 
     private String workoutTitle;
 
-    private String workoutType;
-
     private String workoutDescription;
 
     private String workoutYoutubePath;

@@ -29,8 +29,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
             Optional<Cookie> accessCookie = Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "accessToken"));
-
-            if (accessCookie.isPresent()) {
+            if(accessCookie.isPresent()){
                 String accessToken = accessCookie.get().getValue();
                 // 기간이 유효한 토큰인지 확인
                 if (jwtProvider.validateToken(accessToken)) {
@@ -38,14 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     Authentication authentication = jwtProvider.getAuthentication(accessToken);
                     // SecurityContext에 Authentication 저장
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                // 기간이 유효한 토큰이 아닐 시
-                } else {
+                }
+            } else {
                     Optional.ofNullable(cookieProvider.getCookie((HttpServletRequest) request, "refreshToken"))
                             .ifPresent(cookie -> {
                                 String refreshToken = cookie.getValue();
                                 String username = jwtProvider.getUsername(refreshToken);
                                 String sns = jwtProvider.getSns(refreshToken);
-                                if(!redisUtil.getData(sns+username).isEmpty()){
+                                if (!redisUtil.getData(sns + username).isEmpty()) {
                                     Authentication authentication = jwtProvider.getAuthentication(refreshToken);
                                     SecurityContextHolder.getContext().setAuthentication(authentication);
                                     Account account = Account.builder().username(username).sns(Sns.valueOf(sns)).build();
@@ -54,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                 }
 
                             });
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();

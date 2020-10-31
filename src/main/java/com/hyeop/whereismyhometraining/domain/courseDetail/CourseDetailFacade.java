@@ -2,6 +2,7 @@ package com.hyeop.whereismyhometraining.domain.courseDetail;
 
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailDeleteRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailCreateRequestDto;
+import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailModifyRequestDto;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,9 @@ public class CourseDetailFacade {
 
     public ResponseEntity delete(CourseDetailDeleteRequestDto id) {
         return courseDetailService.delete(id);
+    }
+
+    public ResponseEntity modify(CourseDetailModifyRequestDto dto) {
+        return courseDetailService.modify(dto);
     }
 }

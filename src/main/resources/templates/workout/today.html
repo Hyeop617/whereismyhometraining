@@ -27,9 +27,9 @@
                         <div style="width: 500px">
                             <img class="mb-3 rounded-lg" th:src="${workout.imgPath}" name="workoutImgPath" width="auto" height="300px;">
                             <!-- 운동 설명 -->
-                            <span class="text-muted mt-3" th:text="${workout.description}"
+                            <div class="text-muted mt-3" th:text="${workout.description}"
                                   name="workoutDescrtipion" style="white-space: pre-line">
-                            </span>
+                            </div>
                         </div>
                     </div>
                     <hr>
@@ -44,7 +44,12 @@
                 </div>
             </div>
             <!-- 캐릭터 -->
-            <div class="col-md-4">
+            <div sec:authorize="isAuthenticated()" class="col-md-4">
+                <h5 th:text="${shapeImgPath}">asdf</h5>
+                <img class="Ani" src="/img/basic.png">
+            </div>
+            <div sec:authorize="isAnonymous()" class="col-md-4">
+                <h5 th:text="${shapeImgPath}">asdf</h5>
                 <img class="Ani" src="/img/basic.png">
             </div>
         </div>
