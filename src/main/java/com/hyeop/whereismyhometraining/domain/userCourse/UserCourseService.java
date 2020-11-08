@@ -49,10 +49,9 @@ public class UserCourseService {
     private CourseDetailRepository courseDetailRepository;
 
     public Map<String, List<UserCourseResponseDto>> list(){
-        //TODO :: Exception 수정
         Map<String, List<UserCourseResponseDto>> hm = new HashMap<>();
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Account account = accountRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("sdf"));
+        Account account = accountRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("사용자가 없습니다."));
 
         List<UserCourseResponseDto> notFinished = userCourseRepository.findAllByAccount(account)
                                                                     .stream()
@@ -60,10 +59,10 @@ public class UserCourseService {
                                                                     .map(UserCourseMapper.INSTANCE::toDto)
                                                                     .collect(Collectors.toList());
         List<UserCourseResponseDto> finished = userCourseRepository.findAllByAccount(account)
-                .stream()
-                .filter(uc -> uc.getIsFinish().equals(true))
-                .map(UserCourseMapper.INSTANCE::toDto)
-                .collect(Collectors.toList());
+                                                                    .stream()
+                                                                    .filter(uc -> uc.getIsFinish().equals(true))
+                                                                    .map(UserCourseMapper.INSTANCE::toDto)
+                                                                    .collect(Collectors.toList());
         hm.put("finished", finished);
         hm.put("notFinished", notFinished);
 

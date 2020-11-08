@@ -55,7 +55,7 @@ async function getDetail(order) {
   workoutCountSet.textContent =  response.workoutTime > 600 ? `${response.workoutTime / 60}분 ${response.workoutSet}세트`
                                                             : response.workoutTime > 0  ? `${response.workoutTime}초 ${response.workoutSet}세트`
                                                                                         : `${response.workoutCount}회 ${response.workoutSet}세트`
-  workoutImgPath.textContent =  response.workoutImgPath
+  workoutImgPath.setAttribute("src", response.workoutImgPath)
   workoutDescrtipion.textContent =  response.workoutDescription
   workoutYoutubePath.setAttribute("src", response.workoutYoutubePath)
 

@@ -3,14 +3,15 @@ package com.hyeop.whereismyhometraining.domain.account;
 import com.hyeop.whereismyhometraining.advice.exception.CUserNotFoundException;
 import com.hyeop.whereismyhometraining.config.CookieProvider;
 import com.hyeop.whereismyhometraining.config.JwtProvider;
+import com.hyeop.whereismyhometraining.domain.mail.MailService;
 import com.hyeop.whereismyhometraining.entity.RedisUtil;
 import com.hyeop.whereismyhometraining.entity.account.Account;
 import com.hyeop.whereismyhometraining.entity.account.AccountRepository;
-import com.hyeop.whereismyhometraining.entity.account.dto.LoginRequestDto;
-import com.hyeop.whereismyhometraining.entity.account.dto.SignupRequestDto;
+import com.hyeop.whereismyhometraining.entity.account.dto.*;
 import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.entity.enums.Sns;
 import com.hyeop.whereismyhometraining.mapper.AccountMapper;
+import com.hyeop.whereismyhometraining.response.ResponseResult;
 import com.hyeop.whereismyhometraining.response.ResponseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -39,6 +41,12 @@ public class AccountService implements UserDetailsService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private ResponseService responseService;
+
+    @Autowired
+    private MailService mailService;
 
     @Autowired
     private RedisUtil redisUtil;
@@ -89,7 +97,7 @@ public class AccountService implements UserDetailsService {
         return hm.get("result");
     }
 
-    public void snsLogin(Sns sns, String username, HttpServletResponse response){
+    public void snsLogin(Sns sns, String username, HttpServletResponse response) {
         Account account = accountRepository.findByUsernameAndSns(username, sns).orElseThrow(() -> new CUserNotFoundException(username + " 사용자가 없습니다."));
         String accessToken = jwtProvider.createToken(account, JwtProvider.TOKEN_VALID_TIME);
         String refreshToken = jwtProvider.createToken(account, JwtProvider.REFRESH_TOKEN_VALID_TIME);
@@ -101,7 +109,6 @@ public class AccountService implements UserDetailsService {
         // Redis에 Refresh Token 저장
         redisUtil.setDataExpire(sns + username, refreshToken, JwtProvider.REFRESH_TOKEN_VALID_TIME);
     }
-
 
 
     @Override
@@ -138,5 +145,54 @@ public class AccountService implements UserDetailsService {
         return accountRepository.existsByEmail(email)
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public ResponseResult sendVerificationCode(FindAccountRequestDto dto) {
+        if (dto.getFindPassword().equals(true)) {
+            Account account = accountRepository.findByEmailAndUsername(dto.getEmail(), dto.getUsername()).orElse(Account.builder().id(-1L).build());
+            if (account.getId().equals(-1L)) {
+                return responseService.getResult("not found");
+            }
+            mailService.sendVerificationMail(account.getEmail());
+            return responseService.getResult("send");
+
+        }
+        Account account = accountRepository.findByEmail(dto.getEmail()).orElse(Account.builder().id(-1L).build());
+        if (account.getId().equals(-1L)) {
+            return responseService.getResult("not found");
+        }
+        mailService.sendVerificationMail(account.getEmail());
+        return responseService.getResult("send");
+    }
+
+
+    public ResponseResult checkVerificationCode(FindAccountVerificationCodeRequestDto dto) {
+        Optional<String> code = Optional.ofNullable(redisUtil.getData("verification-code" + dto.getEmail()));
+        if (code.isPresent()) {
+            if (code.get().equals(dto.getCode().toString())) {
+                Optional<Account> account = accountRepository.findByEmail(dto.getEmail());
+                String encode = passwordEncoder.encode(account.get().getUsername());
+                FindAccountVerificationResponseDto responseDto = FindAccountVerificationResponseDto
+                        .builder()
+                        .findPassword(dto.getFindPassword())
+                        .username(account.get().getUsername())
+                        .redirectPasswordUri(encode)
+                        .build();
+                redisUtil.setDataExpire("verification-code" + dto.getEmail(), "", 1L);     // 인증코드 만료시킴.
+                redisUtil.setDataExpire(encode, account.get().getUsername(), 10 * 60L);      // 비밀번호 재설정 토큰 설정
+                return responseService.getResult(responseDto);
+            }
+        }
+
+        return responseService.getResult("false");
+    }
+
+    public ResponseResult resetPassword(ResetPasswordRequestDto dto) {
+        String username = redisUtil.getData(dto.getToken());
+        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("이상하다"));
+        account.changePassword(passwordEncoder.encode(dto.getPassword()));
+        accountRepository.save(account);
+        redisUtil.setDataExpire(dto.getToken(), "", 1L);
+        return responseService.getResult("done");
     }
 }

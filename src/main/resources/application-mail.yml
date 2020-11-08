@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: whereismyhometraining@gmail.com
+    password: 123qwe!@#!@#
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    default-encoding: UTF-8
+
+mail:
+  text : "구해줘 홈트 입니다.\r\n인증번호를 발송해 드리겠습니다.\r\n다음 번호를 입력해주세요. \r\n"

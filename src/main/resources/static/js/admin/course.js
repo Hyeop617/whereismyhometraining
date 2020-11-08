@@ -123,7 +123,7 @@ add = function () {
     newCell = newRow.insertCell(newRow.length);
     newCell.innerHTML = `<input class="form-control" type="text"  placeholder="횟수" style="width: 60px" value="${workoutCount}">`;
     newCell = newRow.insertCell(newRow.length);
-    newCell.innerHTML = `<input class="form-control" type="text" placeholder="시간 (초)" style="width: 60px" value="${workoutTime}">`;
+    newCell.innerHTML = `<input class="form-control" type="text" placeholder="시간 (초)" style="width: 70px" value="${workoutTime}">`;
     newCell = newRow.insertCell(newRow.length);
     newCell.innerHTML = `<button class="btn btn-sm btn-danger" onclick="remove(${data}, this)">삭제</button>`;
     newCell = newRow.insertCell(newRow.length);

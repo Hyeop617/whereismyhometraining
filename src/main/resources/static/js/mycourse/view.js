@@ -166,7 +166,6 @@ async function nextWorkout(workoutOrder) {
     },
     body: JSON.stringify(dto)
   })).json()
-  currentSet = 1;
   if (response.data == 'totalFinish') {
     progressBar.style.width = '100%'
     startButton.classList.add('d-none')
@@ -185,6 +184,8 @@ async function nextWorkout(workoutOrder) {
     workoutDescrtipion.textContent = response.data.workoutDescription
     workoutYoutubePath.setAttribute("src", response.data.workoutYoutubePath)
     progressBar.style.width = `${response.data.progressDay}%`
+    totalSet = response.data.workoutSet
+    currentSet = 0;
   }
 
   startButton.style.background = 'rgba(112,169,240,1)'

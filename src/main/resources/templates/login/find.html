@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<th:block layout:fragment="css">
+
+</th:block>
+
+<th:block layout:fragment="js">
+    <script src="/js/login/find.js"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <main class="container">
+
+        <!-- logo href -->
+        <div style="margin-top: 110px;">
+            <a href="../cover.html">
+                <img src="/img/logo.png" class="d-block mx-auto mb-4" width="10%">
+            </a>
+        </div>
+        <!-- login form -->
+        <div class="form-login" style="max-width: 1000px">
+            <div class="find-form p-5 d-flex flex-column">
+                <h3>계정 찾기</h3><br>
+                <div class="d-flex flex-column mb-5">
+                    <h5>아이디 찾기</h5>
+                    <div class="d-flex">
+                        <input type="email" name="findIdEmail" class="form-control" placeholder="본인확인 이메일을 입력하세요."
+                               style="max-width: 500px">
+                        <button class="btn btn-primary btn-sm ml-1" name="reqIdVerificationCode" onclick="findId()" style="width: 120px">인증번호 받기
+                        </button>
+                    </div>
+                    <div class="d-flex">
+                        <input type="email" name="idVerificationInput" class="form-control" placeholder="인증번호를 입력하세요."
+                               style="max-width: 500px" disabled>
+                        <button class="btn btn-primary btn-sm ml-1 disabled" name="idVerificationButton"
+                                style="width: 120px" onclick="checkVerificationCode(false, this.parentNode.children[0].value, this.parentNode.parentNode.children[1].children[0].value)">확인
+                        </button>
+                    </div>
+                </div>
+                <div class="d-flex flex-column mb-5">
+                    <h5>아이디 찾기</h5>
+                    <div class="d-flex">
+                        <input type="email" name="findPwUsername" class="form-control" placeholder="아이디를 입력하세요."
+                               style="max-width: 500px">
+                        </button>
+                    </div>
+                    <div class="d-flex">
+                        <input type="email" name="findPwEmail" class="form-control" placeholder="본인확인 이메일을 입력하세요."
+                               style="max-width: 500px">
+                        <button class="btn btn-primary btn-sm ml-1" name="reqPwVerificationCode" onclick="findPw()" style="width: 120px">인증번호 받기
+                        </button>
+                    </div>
+                    <div class="d-flex">
+                        <input type="email" name="PwVerificationInput" class="form-control" placeholder="인증번호를 입력하세요."
+                               style="max-width: 500px" disabled>
+                        <button class="btn btn-primary btn-sm ml-1 disabled" name="PwVerificationButton"
+                                style="width: 120px" onclick="checkVerificationCode(true, this.parentNode.children[0].value, this.parentNode.parentNode.children[2].children[0].value)">확인
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+</html>

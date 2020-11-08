@@ -76,4 +76,8 @@ public class Account {
     public void changeLowerLevel(Integer courseLevel){
         lowerLevel += (courseLevel * 8);
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

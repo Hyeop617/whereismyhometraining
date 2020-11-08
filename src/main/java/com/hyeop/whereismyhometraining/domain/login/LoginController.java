@@ -1,11 +1,12 @@
 package com.hyeop.whereismyhometraining.domain.login;
 
-import com.hyeop.whereismyhometraining.entity.account.dto.LoginRequestDto;
-import com.hyeop.whereismyhometraining.entity.account.dto.SignupRequestDto;
-import com.hyeop.whereismyhometraining.entity.account.dto.SignupSnsRequestDto;
+import com.hyeop.whereismyhometraining.entity.RedisUtil;
+import com.hyeop.whereismyhometraining.entity.account.dto.*;
+import com.hyeop.whereismyhometraining.response.ResponseResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,12 +15,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class LoginController {
 
     private final LoginFacade loginFacade;
+
+    private final RedisUtil redisUtil;
 
     @GetMapping("/")
     public String main(@AuthenticationPrincipal OAuth2User oAuth2User) {
@@ -30,13 +35,49 @@ public class LoginController {
     @GetMapping("/login")
     public String login(@AuthenticationPrincipal OAuth2User oAuth2User) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return "login";
+        return "/login/login";
     }
 
     @GetMapping("/signup")
     public String signup() {
         return "signup";
     }
+
+    @GetMapping("/login/find")
+    public String find(){
+        return "/login/find";
+    }
+
+    @GetMapping("/login/reset")
+    public String resetPassword(@RequestParam String token, Model model){
+        String data = Optional.ofNullable(redisUtil.getData(token)).orElseThrow(() -> new AccessDeniedException("권한이 없습니다."));
+        model.addAttribute("token", token);
+        return "/login/resetPassword";
+    }
+
+    @PostMapping("/login/reset")
+    @ResponseBody
+    public ResponseResult resetPassword(@RequestBody ResetPasswordRequestDto dto){
+        System.out.println(dto.toString());
+        return loginFacade.resetPassword(dto);
+    }
+
+    @PostMapping("/login/find/sendVerificationCode")
+    @ResponseBody
+    public ResponseResult sendVerificationCode(@RequestBody FindAccountRequestDto dto){
+        ResponseResult responseResult = loginFacade.sendVerificationCode(dto);
+        System.out.println(responseResult.getData());
+        return responseResult;
+    }
+
+    @PostMapping("/login/find/checkVerificationCode")
+    @ResponseBody
+    public ResponseResult checkVerificationCode(@RequestBody FindAccountVerificationCodeRequestDto dto){
+        ResponseResult responseResult = loginFacade.checkVerificationCode(dto);
+        return responseResult;
+    }
+
+
 
     @ResponseBody
     @PostMapping("/login")

@@ -1,5 +1,6 @@
 package com.hyeop.whereismyhometraining.domain.userCourse;
 
+import com.hyeop.whereismyhometraining.domain.common.CommonUtil;
 import com.hyeop.whereismyhometraining.domain.courseDetail.CourseDetailFacade;
 import com.hyeop.whereismyhometraining.entity.courseDetail.dto.CourseDetailResponseDto;
 import com.hyeop.whereismyhometraining.entity.userCourse.dto.UserCourseRequestDto;
@@ -20,7 +21,7 @@ public class UserCourseController {
     private UserCourseFacade userCourseFacade;
 
     @Autowired
-    private CourseDetailFacade courseDetailFacade;
+    private CommonUtil commonUtil;
 
     @GetMapping("")
     public String list(Model model){
@@ -32,6 +33,7 @@ public class UserCourseController {
     @GetMapping("/{id}")
     public String view(@PathVariable Long id, Model model){
         CourseDetailResponseDto view = userCourseFacade.view(id);
+        model.addAttribute("shapeImgPath", commonUtil.checkAccountShpaeImgPath());
         model.addAttribute("courseDetail", view);
         return "/mycourse/view";
     }

@@ -30,18 +30,18 @@ public class CommonUtil {
             UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             Account account = accountRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("sdf"));
 
-            String upper = account.getUpperLevel() >= 30 ? "3"
-                    : account.getUpperLevel() >= 0 ? "2"
-                    : "1";
-            String core = account.getCoreLevel() >= 30 ? "3"
-                    : account.getCoreLevel() >= 0 ? "2"
-                    : "1";
-            String lower = account.getLowerLevel() >= 30 ? "3"
-                    : account.getLowerLevel() >= 0 ? "2"
-                    : "1";
-            return accountImgPath + upper + core + lower + ".jpg";
+            String upper = account.getUpperLevel() >= 30 ? "high"
+                    : account.getUpperLevel() >= 0 ? "mid"
+                    : "low";
+            String core = account.getCoreLevel() >= 30 ? "high"
+                    : account.getCoreLevel() >= 0 ? "mid"
+                    : "low";
+            String lower = account.getLowerLevel() >= 30 ? "high"
+                    : account.getLowerLevel() >= 0 ? "mid"
+                    : "low";
+            return accountImgPath + upper + core + lower + ".png";
         }
-        return accountImgPath + "222.jpg";
+        return accountImgPath + "midmidmid.png";
     }
 
 }
