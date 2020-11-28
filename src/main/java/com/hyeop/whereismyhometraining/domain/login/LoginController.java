@@ -3,6 +3,7 @@ package com.hyeop.whereismyhometraining.domain.login;
 import com.hyeop.whereismyhometraining.entity.RedisUtil;
 import com.hyeop.whereismyhometraining.entity.account.dto.*;
 import com.hyeop.whereismyhometraining.response.ResponseResult;
+import com.hyeop.whereismyhometraining.response.ResponseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -122,6 +123,20 @@ public class LoginController {
         model.addAttribute("regId", regId);
         model.addAttribute("uid", uid);
         return "snsSignup";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public String test(@RequestParam Long userid){
+        loginFacade.test(userid);
+        return "wow";
+    }
+
+    @GetMapping("/fetchtest")
+    @ResponseBody
+    public String fetchtest(@RequestParam Long userid){
+        loginFacade.fetchtest(userid);
+        return "wow";
     }
 
 }

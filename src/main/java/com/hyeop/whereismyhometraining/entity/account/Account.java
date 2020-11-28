@@ -47,7 +47,7 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<UserCourse> userCourse = new ArrayList<>();
 
     public String getRoleAuth(){

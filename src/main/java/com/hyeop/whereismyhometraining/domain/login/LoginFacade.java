@@ -1,6 +1,7 @@
 package com.hyeop.whereismyhometraining.domain.login;
 
 import com.hyeop.whereismyhometraining.domain.account.AccountService;
+import com.hyeop.whereismyhometraining.entity.account.Account;
 import com.hyeop.whereismyhometraining.entity.account.dto.*;
 import com.hyeop.whereismyhometraining.response.ResponseResult;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -49,5 +51,13 @@ public class LoginFacade {
 
     public ResponseResult resetPassword(ResetPasswordRequestDto dto) {
         return accountService.resetPassword(dto);
+    }
+
+    public List<Account> test(Long userid) {
+        return accountService.test(userid);
+    }
+
+    public List<Account> fetchtest(Long userid) {
+        return accountService.fetchtest(userid);
     }
 }

@@ -10,6 +10,7 @@ import com.hyeop.whereismyhometraining.entity.account.AccountRepository;
 import com.hyeop.whereismyhometraining.entity.account.dto.*;
 import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.entity.enums.Sns;
+import com.hyeop.whereismyhometraining.entity.userCourse.UserCourse;
 import com.hyeop.whereismyhometraining.mapper.AccountMapper;
 import com.hyeop.whereismyhometraining.response.ResponseResult;
 import com.hyeop.whereismyhometraining.response.ResponseService;
@@ -194,5 +195,22 @@ public class AccountService implements UserDetailsService {
         accountRepository.save(account);
         redisUtil.setDataExpire(dto.getToken(), "", 1L);
         return responseService.getResult("done");
+    }
+
+    public List<Account> test(Long userid) {
+        List<Account> all = accountRepository.findAll();
+        for(Account acc : all){
+            List<UserCourse> userCourse = acc.getUserCourse();
+            log.info("check : {} ", userCourse.size());
+        }
+        return all;
+    }
+
+    public List<Account>    fetchtest(Long userid) {
+        List<Account> all = accountRepository.findAllJoinFetch();
+        for(Account acc : all){
+            log.info("check : {} ", acc.getUserCourse().size());
+        }
+        return all;
     }
 }

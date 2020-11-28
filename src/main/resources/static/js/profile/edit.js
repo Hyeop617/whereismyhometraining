@@ -2,12 +2,10 @@ let emailAvailable = true;
 const emailReg = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
 window.onload = function () {
-  let passwordAvailable = role != "ROLE_USER" ? true : false;
-
   inputValue();
-  emailCheck();
   if(role == "ROLE_USER") {
     passwordCheck();
+    emailCheck();
   }
   nicknameCheck();
   genderCheck();
@@ -141,23 +139,23 @@ passwordCheck = function () {
 };
 
 validate = function () {
-  emailValidation()
   if(role == "ROLE_USER"){
     passwordValidation()
+    emailValidation()
   }
   nicknameValidation()
   genderValidation()
   ageValidation()
   levelValidation()
-  return role == "ROLE_USER" ? emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation()
-                      : emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation() && passwordValidation();
+  return role == "ROLE_USER" ? emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation() && passwordValidation()
+                      : emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation();
 }
 
 emailValidation = function () {
   const email = document.querySelector('[name=email]');
   const emailAlert = document.querySelector('[name=emailAlert]');
 
-  if(email.value == ''){
+  if(email.value == '' && role == "ROLE_USER"){
     emailAlert.innerText = '이메일을 입력해주세요.';
     emailAlert.classList.remove('d-none');
     return false
@@ -246,8 +244,6 @@ async function edit() {
   if(validate()) {
     if(emailAvailable && passwordAvailable) {
       const account = {
-        email: document.querySelector('[name=email]').value,
-        // password: document.querySelector('[name=password]').value,
         nickname: document.querySelector('[name=nickname]').value,
         gender: document.querySelector('[name=gender]').value == 'M' ? "M" : "F",
         age: document.querySelector('[name=age]').value,
@@ -255,6 +251,7 @@ async function edit() {
       };
       if(role == "ROLE_USER"){
         account.password = document.querySelector('[name=password]').value
+        account.email = document.querySelector('[name=email]').value
       }
       let response = await (await fetch("/profile/edit", {
         method: 'post',
@@ -264,9 +261,11 @@ async function edit() {
         body: JSON.stringify(account)
       }));
       console.log(response)
+      alert("변경되었습니다")
+      history.go(-2 )
 
     } else {
-      alert("비밀번호를 확인해주세요.")
+      alert("필수 항목값을 확인해주세요.")
     }
   } else {
     alert("필수 항목값을 입력해주세요")

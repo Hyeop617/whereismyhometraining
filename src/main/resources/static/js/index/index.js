@@ -1,43 +1,37 @@
-window.onload = function (){
-    keyEvent()
+window.onload = function () {
+  initChart()
 }
 
-function keyEvent(){
-    window.addEventListener("keydown", e => {
-        if(e.key == 'Enter'){
-            login()
-        }
-    })
-}
-
-login = function () {
-    const username = document.querySelector('[name=username]').value;
-    const password = document.querySelector('[name=password]').value;
-    if(username != '' && password != ''){
-        const user = {
-            username: username,
-            password: password
-        };
-        console.log(user);
-        fetch("/login", {
-            method: "post",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user)
-            // TODO :: promise 리턴이 이상함....
-        }).then(res => {
-            let promise = res.text();
-            if (res.status === 401) {
-                alert("아이디 혹은 비밀번호를 확인해주세요.")
-            } else if (res.status === 200){
-                document.location.href = '/'
-            }
-        }).catch(err =>
-          console.log(err)
-        )
-    } else {
-        alert("아이디와 비밀번호를 입력하세요.")
+function initChart() {
+  let ctx = document.querySelector('[name=caloriesChart]').getContext('2d');
+  let chart = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: ["상체", "하체", "복근"],
+      datasets: [{
+        label: "My First dataset",
+        data: [65, 59, 90],
+        backgroundColor: [
+          'rgba(105, 0, 132, .2)',
+        ],
+        borderColor: [
+          'rgba(200, 99, 132, .7)',
+        ],
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      legend: {
+        display: false
+      },
+      "scales": {
+        "xAxes": [{
+          "ticks": {
+            "beginAtZero": true
+          }
+        }]
+      }
     }
-
-};
+  });
+}

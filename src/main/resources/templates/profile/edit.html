@@ -14,6 +14,7 @@
         let gender = '[[${account.gender}]]'
         let age = '[[${account.age}]]'
         let level = '[[${account.level}]]'
+        let passwordAvailable = role != "ROLE_USER";
     </script>
 </th:block>
 <div layout:fragment="content">
@@ -42,7 +43,7 @@
                         <span name="passwordAlert2" class="text-danger d-none">비밀번호가 맞지 않습니다.</span>
                     </div>
                     <div class="mb-3 w-100">
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center" sec:authorize="hasRole('ROLE_USER')">
                             <label style="min-width: 150px">이메일</label>
                             <input type="email" class="form-control" name="email" placeholder="for@example.com"
                                    th:value="${account.email}" required>

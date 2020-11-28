@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 public interface AccountMapper {
     AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
-    @Mapping(target = "role", constant = "USER")
+    @Mapping(target = "role", constant = "SNS")
     @Mapping(target = "sns", defaultValue = "NONE")
     Account toAccount(SignupRequestDto dto);
 

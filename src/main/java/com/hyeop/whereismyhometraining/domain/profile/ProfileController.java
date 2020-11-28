@@ -33,6 +33,7 @@ public class ProfileController {
     @GetMapping("")
     public String view() throws IOException {
         String authentication = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
+        log.info("auth is {} " , authentication.toString());
         if (authentication.contains(Role.SNS.getAuth()) || authentication.contains(Role.ADMIN.getAuth())) {
             return "redirect:/profile/edit";
         }
