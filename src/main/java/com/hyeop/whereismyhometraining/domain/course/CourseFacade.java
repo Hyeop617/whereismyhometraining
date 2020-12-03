@@ -20,4 +20,8 @@ public class CourseFacade {
     public List<CourseResponseDto> listAll(){
         return courseService.listAll();
     }
+
+    public CourseResponseDto getRecommended() {
+        return courseService.getRecommended();
+    }
 }

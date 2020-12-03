@@ -19,7 +19,9 @@ public class ProfileEditRequestDto {
 
     private Integer age;
 
-    private Integer level;
+    private Integer height;
+
+    private Integer weight;
 
     public Boolean hasPassword(){
         return password != null;

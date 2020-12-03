@@ -12,7 +12,27 @@ window.onload = function () {
     ageCheck();
     levelCheck();
     shapeCheck();
+    heightCheck();
+    weightCheck();
 };
+
+function heightCheck(){
+    const height = document.querySelector('[name=height]')
+    const heightAlert = document.querySelector('[name=heightAlert]')
+
+    height.addEventListener('keyup', function (){
+        heightAlert.classList.add('d-none');
+    })
+}
+
+function weightCheck(){
+    const weight = document.querySelector('[name=weight]')
+    const weightAlert = document.querySelector('[name=weightAlert]')
+
+    weight.addEventListener('keyup', function (){
+        weightAlert.classList.add('d-none');
+    })
+}
 
 function shapeCheck(){
     const upperLevel = document.querySelector('[name=upperLevel]')
@@ -188,8 +208,38 @@ validate = function () {
     ageValidation()
     levelValidation()
     shapeValidation()
-    return usernameValidation && emailValidation && passwordValidation
-            && nicknameValidation && genderValidation && ageValidation && levelValidation() && shapeValidation();
+    heightValidation()
+    weightValidation()
+    return usernameValidation && emailValidation && passwordValidation && nicknameValidation()
+            && genderValidation && ageValidation && levelValidation() && shapeValidation() && heightValidation() && weightValidation();
+}
+
+function heightValidation() {
+    const height = document.querySelector('[name=height]')
+    const heightAlert = document.querySelector('[name=heightAlert]')
+
+    if(height.value == ''){
+        heightAlert.innerText = '키를 입력해주세요.';
+        heightAlert.classList.remove('d-none');
+        return false
+    }else {
+        heightAlert.classList.add('d-none');
+        return true
+    }
+}
+
+function weightValidation() {
+    const weight = document.querySelector('[name=weight]')
+    const weightAlert = document.querySelector('[name=weightAlert]')
+
+    if(weight.value == ''){
+        weightAlert.innerText = '몸무게를 입력해주세요.';
+        weightAlert.classList.remove('d-none');
+        return false
+    }else {
+        weightAlert.classList.add('d-none');
+        return true
+    }
 }
 
 function shapeValidation(){
@@ -347,6 +397,8 @@ signup = function () {
                 upperLevel: document.querySelector('[name=upperLevel]').value,
                 coreLevel: document.querySelector('[name=coreLevel]').value,
                 lowerLevel: document.querySelector('[name=lowerLevel]').value,
+                height: document.querySelector('[name=height]').value,
+                weight: document.querySelector('[name=weight]').value,
             };
             fetch("/signup/execute", {
                 method: 'post',

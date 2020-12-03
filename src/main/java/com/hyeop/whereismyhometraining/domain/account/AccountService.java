@@ -22,6 +22,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -137,6 +138,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public ResponseEntity signupSns(SignupRequestDto dto) {
+
         dto.setPassword(passwordEncoder.encode("cryptedhyeop123"));
         accountRepository.save(AccountMapper.INSTANCE.toAccount(dto));
         return new ResponseEntity<>(HttpStatus.OK);
@@ -212,5 +214,17 @@ public class AccountService implements UserDetailsService {
             log.info("check : {} ", acc.getUserCourse().size());
         }
         return all;
+    }
+
+    public AccountDetailResponseDto getAccountDetail(){
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = accountRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("sdf"));
+        return AccountMapper.INSTANCE.toAccountDetailResponseDto(account);
+    }
+
+    public void update(String username, String email) {
+        Account account = accountRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("sdf"));
+        account.changeEmail(email);
+        accountRepository.save(account);
     }
 }

@@ -6,7 +6,7 @@
 </th:block>
 
 <th:block layout:fragment="js">
-    <script src="/js/index/index.js"></script>
+    <script src="/js/mycourse/list.js"></script>
 </th:block>
 <div layout:fragment="content">
     <main class="container">
@@ -32,16 +32,22 @@
                         <th>설명</th>
                         <th>시작 날짜</th>
                         <th>진행률</th>
+                        <th></th>
                     </thead>
                     <tbody>
                         <tr th:each="course : ${list}"
-                            th:onclick="|window.location.href = '/mycourse/${course.courseId}'|">
-                            <td th:text="${course.title}"></td>
-                            <td th:text="${course.level}"></td>
-                            <td th:text="|${course.period}일|"></td>
-                            <td th:text="${course.description}"></td>
-                            <td th:text="${course.createDate}"></td>
-                            <td th:text="|${course.progress}%|"></td>
+                            class="align-middle">
+                            <!--                            th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"-->
+                            <td class="align-middle" th:text="${course.title}" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td class="align-middle" th:text="${course.level}" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td class="align-middle" th:text="|${course.period}일|" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td class="align-middle" th:text="${course.description}" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td class="align-middle" th:text="${course.createDate}" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td class="align-middle" th:text="|${course.progress}%|" th:onclick="|window.location.href = '/mycourse/${course.courseId}'|"></td>
+                            <td>
+                                <button class="btn btn-primary" th:onclick="|addGoogleCalendar(${course.courseId})|">구글 캘린더 추가</button>
+                                <button class="btn btn-danger ml-2" th:onclick="|deleteGoogleCalendar(${course.courseId})|">구글 캘린더 삭제</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -3,6 +3,7 @@ package com.hyeop.whereismyhometraining.mapper;
 //import com.hyeop.whereismyhometraining.config.oauth2.dto.OAuthAttributes;
 
 import com.hyeop.whereismyhometraining.entity.account.Account;
+import com.hyeop.whereismyhometraining.entity.account.dto.AccountDetailResponseDto;
 import com.hyeop.whereismyhometraining.entity.account.dto.ProfileEditResponseDto;
 import com.hyeop.whereismyhometraining.entity.account.dto.SignupRequestDto;
 import org.mapstruct.Mapper;
@@ -18,4 +19,6 @@ public interface AccountMapper {
     Account toAccount(SignupRequestDto dto);
 
     ProfileEditResponseDto toProfileEditResponseDto(Account account);
+
+    AccountDetailResponseDto toAccountDetailResponseDto(Account account);
 }

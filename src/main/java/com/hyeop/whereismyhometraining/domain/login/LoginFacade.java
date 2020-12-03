@@ -60,4 +60,8 @@ public class LoginFacade {
     public List<Account> fetchtest(Long userid) {
         return accountService.fetchtest(userid);
     }
+
+    public AccountDetailResponseDto getAccountDetail(){
+        return accountService.getAccountDetail();
+    }
 }

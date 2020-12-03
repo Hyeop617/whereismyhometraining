@@ -9,6 +9,10 @@
 <th:block layout:fragment="js">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="/js/index/index.js"></script>
+    <script>
+        let totalCalories = 0;
+        const isAnonymous = [[${isAnonymous}]]
+    </script>
 </th:block>
 
 <div layout:fragment="content">
@@ -46,10 +50,11 @@
                 </div>
             </div>
             <!-- 캐릭터 -->
-            <div class="col-md-4">
+            <div class="col-md-4" sec:authorize="isAuthenticated()">
                 <img class="Ani" th:src="${shapeImgPath}">
-                <canvas name="caloriesChart"></canvas>
-                <h5>오늘의 총 소모 칼로리는 300 입니다.</h5>
+                <h5 class="text-center" th:text="${shapeMessage}" style="white-space: pre-line"></h5>
+                <canvas name="caloriesChart" onload="initChart()" style="margin-top: 60px;"></canvas>
+                <h5 class="text-center" name="totalCaloriesInfo">오늘의 총 소모 칼로리는 0 입니다.</h5>
             </div>
         </div>
     </main>

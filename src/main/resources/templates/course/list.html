@@ -16,6 +16,10 @@
             <h1 class="d-inline">All Routines</h1>
         </div>
         <hr>
+        <div class="text-center">
+            <h4 th:text="|🤖 : ${account.nickname} 회원님, ${recommended.title} 코스는 어떠세요?|"></h4>
+            <h6>분홍색 글씨는 무산소+유산소 혼합 코스, 노란색 바탕은 추천 코스 입니다.</h6>
+        </div>
 
         <!-- collapse toggle -->
         <div class="t-tbl">
@@ -27,6 +31,9 @@
             </div>
             <div class="t-cell shadow" data-toggle="collapse" href="#하체"
                  style="background-image: url('/img/bot.png');">
+            </div>
+            <div class="t-cell shadow" data-toggle="collapse" href="#유산소"
+                 style="background-image: url('/img/aerobic.png');">
             </div>
         </div>
 
@@ -46,6 +53,8 @@
                     </thead>
                     <tbody>
                         <tr th:each="course : ${upperList}"
+                            th:style="${recommended.title.equals(course.title) ? 'background-color:yellow;' : ''}"
+                            th:styleappend='${course.type.equals("all") ? "color: #f070a9" : ""}'
                             th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                             <td th:text="${course.title}"></td>
                             <td th:text="${course.level}"></td>
@@ -64,7 +73,7 @@
         </div>
         <!-- 복근 Accordion -->
         <div class="card collapse shadow-sm mb-4" id="복근" aria-expanded="false"
-             style="background-color:#70e9f010; margin: auto;">
+             style="background-color:#70e9f010; margin-left: 8%;">
             <div class="card-header">
                 복근 코스
             </div>
@@ -78,7 +87,10 @@
                     <th>설명</th>
                     </thead>
                     <tbody>
-                    <tr th:each="course : ${coreList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                    <tr th:each="course : ${coreList}"
+                        th:style="${recommended.title.equals(course.title) ? 'background-color:yellow;' : ''}"
+                        th:styleappend='${course.type.equals("all") ? "color: #f070a9" : ""}'
+                        th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                         <td th:text="${course.title}"></td>
                         <td th:text="${course.level}"></td>
                         <td th:text="|${course.period}일|"></td>
@@ -96,7 +108,7 @@
         </div>
         <!-- 하체 Accordion -->
         <div class="card collapse shadow-sm mb-4" id="하체" aria-expanded="false"
-             style="background-color:#a9f07010; margin-left: auto;">
+             style="background-color:#a9f07010; margin-left: 16%;">
             <div class="card-header">
                 하체 코스
             </div>
@@ -110,7 +122,45 @@
                     <th>설명</th>
                     </thead>
                     <tbody>
-                    <tr th:each="course : ${lowerList}" th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                    <tr th:each="course : ${lowerList}"
+                        th:style="${recommended.title.equals(course.title) ? 'background-color:yellow;' : ''}"
+                        th:styleappend='${course.type.equals("all") ? "color: #f070a9" : ""}'
+                        th:onclick="|window.location.href = '/course/detail/${course.id}'|">
+                        <td th:text="${course.title}"></td>
+                        <td th:text="${course.level}"></td>
+                        <td th:text="|${course.period}일|"></td>
+                        <td th:text="${course.description}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="list-group list-group-horizontal">
+                    <!-- {% for 운동1, 2, ... %} -->
+                    <div include-HTML="fragments/Modal_main.html"></div>
+                    <!-- {% endfor %} -->
+                </div>
+            </div>
+            <!-- {% endfor %}-->
+        </div>
+        <!-- 유산소 Accordion -->
+        <div class="card collapse shadow-sm mb-4" id="유산소" aria-expanded="false"
+             style="background-color:#f7cac970; margin-left: auto;">
+            <div class="card-header">
+                유산소 코스
+            </div>
+            <!-- {% for 코스1, 2, ... %}-->
+            <div class="card-body text-center">
+                <table class="table table-light table-hover table-bordered w-100">
+                    <thead class="thead-light">
+                    <th>이름</th>
+                    <th>레벨</th>
+                    <th>기간</th>
+                    <th>설명</th>
+                    </thead>
+                    <tbody>
+                    <tr th:each="course : ${aerobicList}"
+                        th:style='${recommended.title.equals(course.title) ? "background-color:yellow;": ""}'
+                        th:styleappend='${course.type.equals("all") ? "color: #f070a9" : ""}'
+                        th:onclick="|window.location.href = '/course/detail/${course.id}'|">
                         <td th:text="${course.title}"></td>
                         <td th:text="${course.level}"></td>
                         <td th:text="|${course.period}일|"></td>

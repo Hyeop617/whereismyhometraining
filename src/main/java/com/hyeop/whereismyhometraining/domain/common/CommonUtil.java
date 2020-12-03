@@ -44,4 +44,33 @@ public class CommonUtil {
         return accountImgPath + "midmidmid.png";
     }
 
+    public String checkAccountShapeMessage(){
+        Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        String message = "";
+        if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))){
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Account account = accountRepository.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("sdf"));
+            Integer upperLevel = account.getUpperLevel();
+            Integer lowerLevel = account.getLowerLevel();
+            Integer coreLevel = account.getCoreLevel();
+            Integer min = Math.min(upperLevel, Math.min(lowerLevel, coreLevel));
+            message += "회원님의 체형을 보니... \n";
+            if(upperLevel.equals(lowerLevel) && lowerLevel.equals(coreLevel)){
+                message += "신체 밸런스가 잘 맞아요!";
+            } else {
+                if(min.equals(upperLevel)){
+                    message += "[상체]";
+                }
+                if(min.equals(lowerLevel)){
+                    message += "[하체]";
+                }
+                if(min.equals(coreLevel)){
+                    message += "[복근]";
+                }
+                message += "를(을) 더 운동하시는게 어떨까요?";
+            }
+        }
+        return message;
+    }
+
 }

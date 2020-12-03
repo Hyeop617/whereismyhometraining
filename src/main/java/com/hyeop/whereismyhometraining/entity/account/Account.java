@@ -3,6 +3,7 @@ package com.hyeop.whereismyhometraining.entity.account;
 import com.hyeop.whereismyhometraining.entity.account.dto.ProfileEditRequestDto;
 import com.hyeop.whereismyhometraining.entity.enums.Role;
 import com.hyeop.whereismyhometraining.entity.enums.Sns;
+import com.hyeop.whereismyhometraining.entity.googleCalendar.GoogleCalendar;
 import com.hyeop.whereismyhometraining.entity.userCourse.UserCourse;
 import lombok.*;
 
@@ -41,6 +42,10 @@ public class Account {
 
     private Integer lowerLevel;        // 하체 레벨 (-1 0 1)
 
+    private Integer height;
+
+    private Integer weight;
+
     @Enumerated(EnumType.STRING)
     private Sns sns;                // SNS 종류
 
@@ -54,12 +59,16 @@ public class Account {
         return this.role.getAuth();
     }
 
+    public void changeEmail(String email){
+        this.email = email;
+    }
+
     public void changeProfile(ProfileEditRequestDto dto){
         email = dto.getEmail();
         age = dto.getAge();
         gender = dto.getGender();
         nickname = dto.getNickname();
-        level = dto.getLevel();
+
         if(dto.hasPassword()){
             password = dto.getPassword();
         }
@@ -67,6 +76,17 @@ public class Account {
 
     public void changeUpperLevel(Integer courseLevel){
         upperLevel += (courseLevel * 8);
+    }
+
+    public void changeLevel(){
+        int exp = upperLevel + lowerLevel + coreLevel;
+        if(exp > 100){
+            level = 4;
+        } else if (exp > 70){
+            level = Math.max(level, 2);
+        } else if (exp > 40){
+            level = Math.max(level, 2);
+        }
     }
 
     public void changeCoreLevel(Integer courseLevel){

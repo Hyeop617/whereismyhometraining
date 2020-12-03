@@ -17,13 +17,37 @@ async function addUserCourse(courseId) {
   })
 
   if(response.status == 200) {
-    alert("추가되었습니다.")
+    let confirmResult = confirm("구글 캘린더에도 추가할까요?");
+    if(confirmResult){
+      await addGoogleCalendar(courseId)
+    }
   } else if (response.status == 409) {
     alert("이미 추가된 코스입니다.")
   } else if (response.status == 401) {
     alert("대상 성별이 아닙니다!")
   }
   console.log(response)
+}
+
+async function addGoogleCalendar(courseId){
+  const dto = {
+    courseId : courseId
+  }
+  let response = await fetch('/mycourse/addGoogleCalendar', {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dto)
+  })
+  if(response.status == 200){
+    alert("추가되었습니다.")
+  }
+}
+
+async function changeDay(){
+  workoutOrder = 1;
+  await getDetail(workoutOrder)
 }
 
 async function getDetail(order) {

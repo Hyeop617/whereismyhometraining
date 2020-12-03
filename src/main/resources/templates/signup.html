@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- css -->
     <link rel="stylesheet" type="text/css" href="../css/customCss.css">
-    <script src="js/signup/signup.js"></script>
+    <script src="js/login/signup.js"></script>
     <link rel="icon" href="../img/yoga.jpg">
     <title>구해줘! 홈트 | 회원가입</title>
 </head>
@@ -86,9 +86,19 @@
                                 </select>
                                 <span name="ageAlert" class="text-danger d-none">나이를 선택해주세요.</span>
                             </div>
+                            <div class="col-md-4 mb-3">
+                                <label>키 (cm)</label>
+                                <input type="number" class="form-control" name="height" placeholder="ex) 173" value="" required>
+                                <span name="heightAlert" class="text-danger d-none">키를 입력해주세요.</span>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label>몸무게 (kg)</label>
+                                <input type="number" class="form-control" name="weight" placeholder="ex) 70" value="" required>
+                                <span name="weightAlert" class="text-danger d-none">몸무게를 입력해주세요.</span>
+                            </div>
                         </div>
                         <div>
-                            <h6 style="color:rgb(150,30,30)">형태는 가입 후 변경하실 수 없습니다.<br>신중히 선택해 주세요.</h6>
+                            <h6 style="color:rgb(150,30,30)">형태와 운동여부는 가입 후 변경하실 수 없습니다.<br>신중히 선택해 주세요.</h6>
                         </div>
                         <div class="row">
                             <div class="col-md-4 mb-3">

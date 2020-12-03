@@ -10,7 +10,7 @@
     <script src="/js/courseDetail/view.js"></script>
     <script>
       const courseId = '[[${courseDetail.courseId}]]';
-      let order = '[[${courseDetail.workoutOrder}]]';
+      let workoutOrder = '[[${courseDetail.workoutOrder}]]';
     </script>
 </th:block>
 
@@ -25,7 +25,7 @@
                     <h3 class="d-inline" th:text="${courseDetail.courseTitle}">💪 상체 초급1</h3>
 <!--                    <h3 class="d-inline" th:text="${courseDetail}">💪 상체 초급1</h3>-->
                     <!-- 일차 선택 dropdown -->
-                    <select class="custom-select w-25 float-right" name="selectDay" onchange="getDetail(1)">
+                    <select class="custom-select w-25 float-right" name="selectDay" onchange="changeDay()">
                         <th:block th:each="num : ${#numbers.sequence(1,30)}">
                             <option th:value="${num}" th:text="|${num} 일차|">1 일차</option>
                         </th:block>
@@ -108,7 +108,7 @@
                     <div class="d-flex justify-content-center">
                         <button type="button" style="background-color: #70a9f0;" class="btn mainBtn"
                                 data-dismiss="modal" name="prevButton"
-                                onclick="getDetail(--order)"
+                                onclick="getDetail(--workoutOrder)"
                                 th:classappend="${courseDetail.isFirst} ? invisible">
                             이전 운동
                         </button>
@@ -119,7 +119,7 @@
                         </button>
                         <button type="button" style="background-color: #70a9f0;" class="btn mainBtn"
                                 data-dismiss="modal" name="nextButton"
-                                onclick="getDetail(++order)"
+                                onclick="getDetail(++workoutOrder)"
                                 th:classappend="${courseDetail.isEnd} ? invisible">
                             다음 운동
                         </button>

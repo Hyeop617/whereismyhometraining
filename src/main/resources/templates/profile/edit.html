@@ -13,7 +13,6 @@
         const emailPrev = '[[${account.email}]]'
         let gender = '[[${account.gender}]]'
         let age = '[[${account.age}]]'
-        let level = '[[${account.level}]]'
         let passwordAvailable = role != "ROLE_USER";
     </script>
 </th:block>
@@ -85,30 +84,6 @@
                             </select>
                         </div>
                         <span name="ageAlert" class="text-danger d-none">나이를 선택해주세요.</span>
-                    </div>
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="d-flex flex-column justify-content-center align-items-center my-3">
-                            <p>평소 운동 여부</p>
-                            <div class="d-flex flex-column my-3 text-left justify-content-center">
-                                <div class="custom-control custom-radio">
-                                    <input id="4" name="level" type="radio" value="4" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="4">많이 운동하는 편</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input id="3" name="level" type="radio" value="3" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="3">그럭저럭 운동하는 편</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input id="2" name="level" type="radio" value="2" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="2">그다지 운동하지 않는 편</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input id="1" name="level" type="radio" value="1" class="custom-control-input" required>
-                                    <label class="custom-control-label" for="1">전혀 운동하지 않는 편</label>
-                                </div>
-                            </div>
-                        </div>
-                        <span name="levelAlert" class="text-danger d-none">운동 여부를 선택해주세요.</span>
                     </div>
                     <div>
                         <button class="mt-1 border-0" style="background: rgba(112,169,240,1); color: white; height: 48px; width: 300px" onclick="edit()">확인</button>

@@ -14,4 +14,8 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     Optional<Course> findAllById(Long id);
 
+    Optional<Course> findByLevelAndType(Integer level, String type);
+
+    Optional<Course> findByLevelAndGenderAndType(Integer level, String gender, String type);
+
 }

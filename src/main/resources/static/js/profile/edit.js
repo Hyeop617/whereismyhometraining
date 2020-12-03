@@ -10,14 +10,11 @@ window.onload = function () {
   nicknameCheck();
   genderCheck();
   ageCheck();
-  levelCheck();
 };
 
 function inputValue(){
   const inputAge = document.querySelector('[name=age]')
-  let elementById = document.getElementById(level);
   const inputGender = document.querySelector('[name=gender]')
-  elementById.checked = true;
   inputAge.value = age
   inputGender.value = gender
 
@@ -49,16 +46,6 @@ ageCheck = function () {
     ageAlert.classList.add('d-none');
   })
 }
-
-levelCheck = function () {
-  const level = document.querySelector('[name=level]')
-  const levelAlert = document.querySelector('[name=levelAlert]')
-
-  level.addEventListener('focus', function (){
-    levelAlert.classList.add('d-none');
-  })
-}
-
 emailCheck = function () {
   const email = document.querySelector('[name=email]');
   const emailAlert = document.querySelector('[name=emailAlert]');
@@ -146,9 +133,8 @@ validate = function () {
   nicknameValidation()
   genderValidation()
   ageValidation()
-  levelValidation()
-  return role == "ROLE_USER" ? emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation() && passwordValidation()
-                      : emailValidation && nicknameValidation && genderValidation && ageValidation && levelValidation();
+  return role == "ROLE_USER" ? emailValidation && nicknameValidation && genderValidation && ageValidation && passwordValidation()
+                      : emailValidation && nicknameValidation && genderValidation && ageValidation;
 }
 
 emailValidation = function () {
@@ -227,19 +213,6 @@ ageValidation = function () {
   }
 }
 
-levelValidation = function () {
-  const level = document.querySelector('[name=level]:checked');
-  const levelAlert = document.querySelector('[name=levelAlert]')
-
-  if(level == null){
-    levelAlert.classList.remove('d-none');
-    return false;
-  }else {
-    levelAlert.classList.add('d-none');
-    return true;
-  }
-}
-
 async function edit() {
   if(validate()) {
     if(emailAvailable && passwordAvailable) {
@@ -247,7 +220,6 @@ async function edit() {
         nickname: document.querySelector('[name=nickname]').value,
         gender: document.querySelector('[name=gender]').value == 'M' ? "M" : "F",
         age: document.querySelector('[name=age]').value,
-        level: document.querySelector('[name=level]:checked').value,
       };
       if(role == "ROLE_USER"){
         account.password = document.querySelector('[name=password]').value

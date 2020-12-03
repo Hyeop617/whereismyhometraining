@@ -114,7 +114,7 @@ async function timerCheck() {
       }
     }, 1000);
 
-  } else {
+  } else {      // 초가 0이상일 때 (시간으로 하는 운동 아닐때)
     await start()
   }
 }
@@ -123,7 +123,7 @@ async function start() {
   const startButton = document.querySelector("[name=startButton]");
   const fanfare = new Audio("/sound/fanfare.wav")
 
-  if (currentSet > totalSet) {
+    if (currentSet > totalSet) {
     startButton.style.background = 'rgba(240,112,218,1)'
     startButton.textContent = '다 했어요!'
     nextWorkoutYet = true
@@ -186,6 +186,7 @@ async function nextWorkout(workoutOrder) {
     progressBar.style.width = `${response.data.progressDay}%`
     totalSet = response.data.workoutSet
     currentSet = 0;
+    workoutTime = response.data.workoutTime
   }
 
   startButton.style.background = 'rgba(112,169,240,1)'

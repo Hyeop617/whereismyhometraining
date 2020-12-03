@@ -44,6 +44,18 @@ public class UserCourseController {
         return userCourseFacade.addUserCourse(dto);
     }
 
+    @PostMapping("/addGoogleCalendar")
+    @ResponseBody
+    public ResponseEntity addUserCourseGoogleCalendar(@RequestBody UserCourseRequestDto dto) {
+        return userCourseFacade.addUserCourseGoogleCalendar(dto);
+    }
+
+    @PostMapping("/deleteGoogleCalendar")
+    @ResponseBody
+    public ResponseEntity deleteUserCourseGoogleCalendar(@RequestBody UserCourseRequestDto dto) {
+        return userCourseFacade.deleteUserCourseGoogleCalendar(dto);
+    }
+
     @PostMapping("/nextWorkout")
     @ResponseBody
     public ResponseResult nextWorkout(@RequestBody UserCourseRequestDto dto){

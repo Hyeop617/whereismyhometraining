@@ -13,6 +13,10 @@ public interface CourseDetailRepository extends JpaRepository<CourseDetail, Long
 
     List<CourseDetail> findAllByCourseOrderByDayDescWorkoutOrderDesc(Course course);
 
+    List<CourseDetail> findAllByCourseOrderByDay(Course course);
+
+    List<CourseDetail> findAllByCourseAndDayOrderByDay(Course course, Integer day);
+
     Optional<CourseDetail> findByCourseAndDayAndWorkoutOrder(Course course, Integer day, Integer workoutOrder);
 
     Integer countByCourseAndDay(Course course, Integer day);

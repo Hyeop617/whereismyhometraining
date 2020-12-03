@@ -33,4 +33,12 @@ public class UserCourseFacade {
     public HashMap<String, ResponseResult> nextWorkout(UserCourseRequestDto dto) {
         return userCourseService.nextWorkout(dto);
     }
+
+    public ResponseEntity addUserCourseGoogleCalendar(UserCourseRequestDto dto) {
+        return userCourseService.addUserCourseGoogleCalendar(dto);
+    }
+
+    public ResponseEntity deleteUserCourseGoogleCalendar(UserCourseRequestDto dto) {
+        return userCourseService.deleteUserCourseGoogleCalendar(dto);
+    }
 }
