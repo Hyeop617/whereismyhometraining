@@ -1,19 +1,25 @@
 
 # 구해줘! 홈트
-2020-2 졸업프로젝트
+가천대학교 2020-2 졸업프로젝트
+
 # 프로젝트 요약
 사용자 맞춤형 홈 트레이닝 서비스를 제공해주는 웹 사이트
-- 사용자의 운동 경험, 나이, 성별에 맞게 코스를 추천해주고, 사용자의 아바타가 성장하는 것을 보면서
-동기부여를 획득할 수 있음.
+- 사용자의 운동 경험, 체형(BMI)에 맞게 코스를 추천!
+- 구글 캘린더에 운동 일정 등록 가능
+- 사용자와 함께 성장하는 아바타
 
 # 주제 선정 배경
 * 코로나 시대에 어울리는 프로젝트
 * 사회적 거리두기로 인한 헬스장 휴관 사태
-* 웹 프로젝트로 구현 가능한 것
+* 웹 플랫폼에서 가능한 주제
 ### 홈트레이닝 웹 프로젝트
 
 # 기술 스택
-- Spirng Boot 2.3.4 RELEASE (Spring Data Jpa, Spring Mail, Spring OAuth2 Client)
+- Spirng Boot 2.3.4 RELEASE
+    - Spring Data JPA
+    - Spring Mail
+    - Spring Security + Spring Boot OAuth2 Client
+    - Spring Cloud OpenFeign
 - Thymeleaf 3.0.11 RELEASE
 - Java 11
 #
@@ -26,12 +32,17 @@
 #
 - NGINX 1.19.3
 - Tomcat 9.0.38
+#
+- Naver OAuth 2.0 Login
+- Google OAuth 2.0 Login
+- Google OAuth 2.0 Calendar API
 
 # 주요 아이디어
-* 사용자 맞춤형 코스 추천
-* 코스, 운동 정보 제공
-* 아바타와 함께 성장
+* 사용자 맞춤형 코스 추천 (BMI, 운동 경험 여부, 연령대)
+* 운동 페이지에서 운동 동영상과 설명을 함께 볼 수 있음
+* 사용자는 아바타와 함께 성장
 * SNS 로그인
+* 구글 캘린더 API
 
 # 실행 흐름
 1. 사용자가 회원가입을 함 (SNS or 일반 회원가입)
@@ -47,6 +58,8 @@
 * Redis를 토큰 저장소로 사용
 * JSP 대신 Thymeleaf 템플릿 엔진
 * Façade 패턴, DDD 패턴 최대한 구현 하도록 노력
+* RestTemplate 대신 OpenFeign을 이용
+* for-loop 대신 stream, Optional 최대한 활용, 람다식이나 메소드 레퍼런스 활용
 
 # 프로젝트 구조
 ![스크린샷 2020-11-18 오전 6 16 24](https://user-images.githubusercontent.com/44764810/99451471-97ca8600-2965-11eb-9614-7632da14eb38.png)
